@@ -1,0 +1,49 @@
+- hosts: manjaro
+    tasks:
+      - name: Edit sudoers
+        - lineinfile:
+          path: /etc/sudoers
+          state: present
+          regexp: '^%sudo'
+          line: '^%sudo ALL=(ALL) NOPASSWD: ALL'
+          validate: 'visudo -cf %s'
+      - name: remove snapd
+          become: yes
+          roles:
+            - bodsch.snapd
+
+      - name: Gather the package facts
+        package_facts:
+          manager: auto
+
+      - name: Print the package facts
+        debug:
+          var: ansible_facts.packages
+
+      - name: Check whether yay is installed
+        debug:
+          msg: "{{ ansible_facts.packages['yay'] | length }} versions of yay are installed!"
+        yay:
+          update_cache: yes
+          upgrade: 'yes'
+        when: "'yay' in ansible_facts.packages"
+
+      - name: Check whether pacman is installed
+        debug:
+          msg: "{{ ansible_facts.packages['pacman'] | length }} versions of pacman are installed!"
+        pacman:
+          update_cache: yes
+          upgrade: 'yes'
+        when: "'pacman' in ansible_facts.packages"
+
+      - name: yay
+          when: 
+          yay:
+            update_cache: yes
+            upgrade: 'yes'
+      - name: pacman
+          when:
+          pacman:
+            update_cache: yes
+            upgrade: 'yes'
+

@@ -1,0 +1,10 @@
+---
+- name: Change hostname
+  hosts: all
+  become: yes
+  gather_facts: false
+  tasks:
+  - name: Turn off Preserve hostname on Ubuntu
+  - name: "update hostnames"
+    hostname:
+      name: "{{ new_hostname }}"

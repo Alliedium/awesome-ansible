@@ -1,0 +1,40 @@
+- hosts: all
+  become: yes
+  gather_facts: yes # required by bodsch.snapd
+  tasks:
+  - name: Wait for system to become reachable
+    wait_for_connection:
+      timeout: 600
+
+  - name: Wait for cloud-init / user-data to finish
+    command: cloud-init status --wait
+    changed_when: no
+
+  - name: Install qemu guest agent
+    apt:
+      update_cache: yes
+      name: qemu-guest-agent
+      state: present
+
+  - name: Make sure qemu guest agent is running
+    systemd:
+      name: qemu-guest-agent
+      enabled: yes
+      state: started
+
+  - name: Remove Snap
+    include_role:
+      name: bodsch.snapd 
+
+  - name: Make sure timesyncd is stopped
+    systemd:
+      name: systemd-timesyncd.service
+      state: stopped
+
+  - name: Copy over the timesyncd config
+    template: src=../templates/timesync.conf dest=/etc/systemd/timesyncd.conf
+
+  - name: Make sure timesyncd is started
+    systemd:
+      name: systemd-timesyncd.service
+      state: started
