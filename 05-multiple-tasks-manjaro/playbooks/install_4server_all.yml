@@ -1,8 +1,9 @@
+  GNU nano 6.2                                                                                        ./playbooks/install_4server_all3.yml                                                                                                  
 - hosts: manjaros
-  become: yes
   gather_facts: yes
   tasks:
   - name: Edit sudoers
+    become: yes
     lineinfile:
       path: /etc/sudoers
       state: present
@@ -18,22 +19,11 @@
     package_facts:
       manager: auto
 
-  - name: Print the package facts
-    debug:
-      var: ansible_facts.packages
+  - name: Update via yay if yay is installed
+    command: "yay -Syyuu --nocleanmenu --nodiffmenu --noconfirm --needed"
+    when: "'yay' in ansible_facts.packages"
 
-  - name: Check whether yay is installed
-    debug:
-      msg: "{{ ansible_facts.packages['yay'] | length }} versions of yay are installed!"
-      yay:
-        update_cache: yes
-        upgrade: 'yes'
-      when: "'yay' in ansible_facts.packages"
-
-  - name: Check whether pacman is installed
-    debug:
-      msg: "{{ ansible_facts.packages['pacman'] | length }} versions of pacman are installed!"
-      pacman:
-        update_cache: yes
-        upgrade: 'yes'
-      when: "'pacman' in ansible_facts.packages"
+  - name: Otherwise update via pacman
+    become: yes
+    command: "pacman -Syyuu --noconfirm --needed"
+    when: "'yay' not in ansible_facts.packages"
