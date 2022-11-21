@@ -1,7 +1,7 @@
 main:
   hosts:
-    10.44.99.[72:73]
+    10.44.99.[82:83]
   vars:
     ansible_ssh_common_args: '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-    ansible_user: suser
+    ansible_user: suser2
     ansible_ssh_private_key_file: ~/.ssh/id_rsa_cloudinit

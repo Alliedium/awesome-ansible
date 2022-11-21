@@ -1,4 +1,4 @@
-- hosts: manjaro
+- hosts: manjaros
     tasks:
       - name: Edit sudoers
         - lineinfile:

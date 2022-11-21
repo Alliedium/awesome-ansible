@@ -1,16 +1,13 @@
 all:
   hosts:
+    10.44.99.82:
+    10.44.99.83:
+    10.44.99.85:
+      ansible_user: suser2
     10.44.99.81:
       ansible_user: suser
-    10.44.99.[82:83]:
-      ansible_user: suser2
-  children:
-    suser-group:
-      hosts:
-        10.44.99.81
-    suser2-group:
-      hosts:
-        10.44.99.[82:83]
+    10.44.99.84:
+      ansible_user: suser
   vars:
     ansible_ssh_common_args: '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
     ansible_ssh_private_key_file: ~/.ssh/id_rsa_cloudinit

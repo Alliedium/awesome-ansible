@@ -1,12 +1,15 @@
 all:
   children:
-    suser-group:
+    suser_group:
       hosts:
-        10.44.99.81: 
+        10.44.99.81:
+        10.44.99.86:
           ansible_user: suser
-    suser2-group:
+    suser2_group:
       hosts:
-        10.44.99.[82:83]
+        10.44.99.82:
+        10.44.99.83:
+        10.44.99.85:
       vars:
         ansible_user: suser2
   vars:
