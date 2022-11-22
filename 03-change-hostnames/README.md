@@ -8,5 +8,5 @@ Make sure you have this parameter specified for each of your hosts.
 
 1. Then we run the playbook:
 ```
-ansible -playbook -i ./inventory/hosts.yaml -v ./playbooks/change-hostnames.yml
+ansible-playbook -i ./inventory/hosts.yaml -v ./playbooks/change-hostnames.yml
 ```

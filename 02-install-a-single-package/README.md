@@ -2,8 +2,8 @@
 
 1. Run the playbooks:
 ```
-ansible -playbook -i ./inventory/hosts.yaml -v ./playbooks/apt.yml
+ansible-playbook -i ./inventory/hosts.yaml -v ./playbooks/apt.yml
 ```
 ```
-ansible -playbook -i ./inventory/hosts.yaml -v ./playbooks/qemu-guest-agent.yml
+ansible-playbook -i ./inventory/hosts.yaml -v ./playbooks/qemu-guest-agent.yml
 ```

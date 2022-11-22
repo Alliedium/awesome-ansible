@@ -1,10 +1,15 @@
 ---
 - name: Change hostname
-  hosts: all
+  hosts: ubuntus
   become: yes
   gather_facts: false
   tasks:
   - name: Turn off Preserve hostname on Ubuntu
+    become: yes
+    replace:
+      path: /etc/cloud/cloud.cfg
+      regexp: '(^preserve_hostname:\s)(.*)$'
+      replace: '\1false'
   - name: "update hostnames"
     hostname:
       name: "{{ new_hostname }}"
