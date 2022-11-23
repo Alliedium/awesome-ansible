@@ -5,23 +5,18 @@
   gather_facts: no
   tasks:
 
-  - name: Register file
+  - name: Save path to cloud config
     stat:
       path: /etc/cloud/cloud.cfg
     register: register_name
 
-  - name: Check if the file exists
-    debug:
-      msg: "The file or directory exists"
-    when: register_name.stat.exists
-
-  - name: Turn off Preserve hostname on Ubuntu
+  - name: Turn off preserve hostname in cloud config
     replace:
       path: /etc/cloud/cloud.cfg
       regexp: '(^preserve_hostname:\s)(.*)$'
       replace: '\1false'
     when: register_name.stat.exists
 
-  - name: "update hostnames"
+  - name: Update hostnames
     hostname:
       name: "{{ new_hostname }}"

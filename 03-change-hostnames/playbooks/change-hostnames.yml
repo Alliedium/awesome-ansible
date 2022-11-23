@@ -13,13 +13,13 @@
   - debug:
       var: r
 
-  - name: Turn off Preserve hostname on Ubuntu
+  - name: Turn off preserve hostname in cloud config
     replace:
       path: /etc/cloud/cloud.cfg
       regexp: '(^preserve_hostname:\s)(.*)$'
       replace: '\1false'
     when: "r.cloud_init_data_facts.result|length > 0"
 
-  - name: "update hostnames"
+  - name: Update hostnames
     hostname:
       name: "{{ new_hostname }}"
