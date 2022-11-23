@@ -17,11 +17,11 @@ ansible-galaxy role --help
 ```
 To install a new role:
 ```
-ansible-galaxy role install bodsch.snapd
+ansible-galaxy install bodsch.snapd
 ```
 Should appear in the list:
 ```
-ansible-galaxy role list
+ansible-galaxy list
 ```
 
 1. Then we run the playbook:

@@ -3,3 +3,7 @@
   gather_facts: false
   tasks:
     - action: ping
+
+    - name: Print all available facts
+      debug:
+        var: ansible_facts

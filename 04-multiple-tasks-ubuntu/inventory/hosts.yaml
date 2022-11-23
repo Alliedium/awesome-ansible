@@ -8,7 +8,7 @@ all:
           ansible_user: suser2
         10.44.99.83:
           ansible_user: suser2
-    manjaros:
+    archs:
       hosts:
         10.44.99.86:
           ansible_user: suser

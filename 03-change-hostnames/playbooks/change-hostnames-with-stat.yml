@@ -5,20 +5,22 @@
   gather_facts: no
   tasks:
 
-  - name: Gather all facts of cloud init
-    community.general.cloud_init_data_facts:
-      filter: result
-    register: r
+  - name: Register file
+    stat:
+      path: /etc/cloud/cloud.cfg
+    register: register_name
 
-  - debug:
-      var: r
+  - name: Check if the file exists
+    debug:
+      msg: "The file or directory exists"
+    when: register_name.stat.exists
 
   - name: Turn off Preserve hostname on Ubuntu
     replace:
       path: /etc/cloud/cloud.cfg
       regexp: '(^preserve_hostname:\s)(.*)$'
       replace: '\1false'
-    when: "r.cloud_init_data_facts.result|length > 0"
+    when: register_name.stat.exists
 
   - name: "update hostnames"
     hostname:

@@ -1,14 +1,15 @@
-- hosts: manjaros
+- hosts: archs:manjaros
   gather_facts: yes
+  become: yes
   tasks:
   - name: Edit sudoers
-    become: yes
-    lineinfile:
-      path: /etc/sudoers
+    community.general.sudoers:
+      name: wheel-nopasswd
+      group: wheel
+      commands: ALL
+      nopassword: true
       state: present
-      regexp: '^%sudo'
-      line: '^%sudo ALL=(ALL) NOPASSWD: ALL'
-      validate: 'visudo -cf %s'
+      validation: required
 
   - name: Remove snap
     include_role:
@@ -19,10 +20,57 @@
       manager: auto
 
   - name: Update via yay if yay is installed
+    become: no
     command: "yay -Syyuu --nocleanmenu --nodiffmenu --noconfirm --needed"
     when: "'yay' in ansible_facts.packages"
 
   - name: Otherwise update via pacman
-    become: yes
     command: "pacman -Syyuu --noconfirm --needed"
     when: "'yay' not in ansible_facts.packages"
+
+  - name: Install yay via pacman
+    command: "pacman -S --noconfirm --needed yay"
+    when: ('yay' not in ansible_facts.packages) and (ansible_facts['kernel'] is search("MANJARO"))
+
+  - name: Install git for building yay from binaries
+    command: "pacman -S --noconfirm --needed git"
+    when: ('yay' not in ansible_facts.packages) and (ansible_facts['kernel'] is not search("MANJARO"))
+
+  - name: Remove directories before building yay from binaries
+    file:
+      state: absent
+      path: "{{ item }}"
+    with_list:
+      - ./yay-bin
+      - ./yay
+    when: ('yay' not in ansible_facts.packages) and (ansible_facts['kernel'] is not search("MANJARO"))
+
+  - name: Build yay from binaries
+    become: no
+    shell: |
+      git clone https://aur.archlinux.org/yay-bin.git
+      cd ./yay-bin
+      makepkg -si --noconfirm
+    when: ('yay' not in ansible_facts.packages) and (ansible_facts['kernel'] is not search("MANJARO"))
+
+  - name: Remove directories after building yay from binaries
+    file:
+      state: absent
+      path: "{{ item }}"
+    with_list:
+      - ./yay-bin
+      - ./yay
+    when: ('yay' not in ansible_facts.packages) and (ansible_facts['kernel'] is not search("MANJARO"))
+
+  - name: Install pamac-cli
+    become: no
+    command: "yay -S --noconfirm --needed pamac-cli"
+    when: ansible_facts['kernel'] is search("MANJARO")
+
+  - name: Enable AUR in pamac
+    command: 'sed --in-place "s/#EnableAUR/EnableAUR/" "/etc/pamac.conf"'
+    when: ansible_facts['kernel'] is search("MANJARO")
+
+  - name: Install pigz and pbzip2 for  https://wiki.archlinux.org/index.php/Makepkg#Utilizing_multiple_cores_on_compression
+    become: no
+    command: "yay -S pigz pbzip2 --noconfirm --needed"

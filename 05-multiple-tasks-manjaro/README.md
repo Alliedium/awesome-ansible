@@ -3,5 +3,5 @@
 
 1. Run the playbook:
 ```
-ansible-playbook -i ./inventory/hosts.yaml -v ./playbooks/install_4server_all.yml -K
+ansible-playbook -i ./inventory/hosts.yaml -v ./playbooks/install_4server_all.yml
 ```
