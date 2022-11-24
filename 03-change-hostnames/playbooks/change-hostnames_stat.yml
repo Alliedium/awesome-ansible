@@ -5,20 +5,17 @@
   gather_facts: no
   tasks:
 
-  - name: Gather all facts of cloud init
-    community.general.cloud_init_data_facts:
-      filter: result
-    register: r
-
-  - debug:
-      var: r
+  - name: Save path to cloud config
+    stat:
+      path: /etc/cloud/cloud.cfg
+    register: register_name
 
   - name: Turn off preserve hostname in cloud config
     replace:
       path: /etc/cloud/cloud.cfg
       regexp: '(^preserve_hostname:\s)(.*)$'
       replace: '\1false'
-    when: "r.cloud_init_data_facts.result|length > 0"
+    when: register_name.stat.exists
 
   - name: Update hostnames
     hostname:

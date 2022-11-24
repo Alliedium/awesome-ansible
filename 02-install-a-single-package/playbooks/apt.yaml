@@ -1,7 +1,16 @@
 - hosts: "*"
   become: yes
   tasks:
+    - name: show os family
+      debug:
+        var: ansible_facts[ 'os_family' ]
     - name: apt
       apt:
         update_cache: yes
         upgrade: 'yes'
+      when: ansible_facts[ 'os_family' ] == "Debian"
+    - name: pacman
+      pacman:
+        update_cache: yes
+        upgrade: 'yes'
+      when: ansible_facts[ 'os_family' ] == "Archlinux"
