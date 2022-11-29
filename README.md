@@ -27,7 +27,7 @@ chmod 600 ~/.ssh/id_rsa_cloudinit
 ```
 sudo apt update
 sudo apt upgrade
-sudo apt --install ansible
+sudo apt install ansible
 ansible --version
 ```
 3. Create inventory

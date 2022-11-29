@@ -2,27 +2,29 @@ all:
   children:
     suser_group:
       hosts:
-        10.44.99.81:
+        10.3.1.21:
           new_hostname: managed-ubuntu-1
-        10.44.99.86:
+        10.3.1.31:
           new_hostname: managed-arch-1
       vars:
         ansible_user: suser
     suser2_group:
       hosts:
-        10.44.99.82:
+        10.3.1.22:
           new_hostname: managed-ubuntu-2
-        10.44.99.83:
+        10.3.1.23:
           new_hostname: managed-ubuntu-3
-        10.44.99.85:
+        10.3.1.32:
           new_hostname: managed-arch-2
       vars:
         ansible_user: suser2
     ubuntus:
-      hosts: 10.44.99.[81:83]
+      hosts: 10.3.1.[21:23]
+    archs:
+      hosts: 10.3.1.[31:32]
     manjaros:
       hosts:
-        10.44.99.84:
+        10.3.1.41:
           new_hostname: managed-manjaro-1
           ansible_user: manjaro
   vars:

@@ -2,17 +2,17 @@ all:
   children:
     ubuntus:
       hosts:
-        10.44.99.81:
+        10.3.1.21:
           ansible_user: suser
-        10.44.99.82:
+        10.3.1.22:
           ansible_user: suser2
-        10.44.99.83:
+        10.3.1.23:
           ansible_user: suser2
     archs:
       hosts:
-        10.44.99.86:
+        10.3.1.31:
           ansible_user: suser
-        10.44.99.85:
+        10.3.1.32:
           ansible_user: suser2
   vars:
     ansible_ssh_common_args: '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'

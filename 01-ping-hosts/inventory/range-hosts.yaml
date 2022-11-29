@@ -1,6 +1,6 @@
 main:
   hosts:
-    10.44.99.[82:83]
+    10.3.1.[22:23]
   vars:
     ansible_ssh_common_args: '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
     ansible_user: suser2
