@@ -3,19 +3,19 @@ all:
     suser_group:
       hosts:
         10.3.1.21:
-          new_hostname: m-u-1
+          new_hostname: managed-ubuntu-1
         10.3.1.31:
-          new_hostname: m-a-1
+          new_hostname: managed-arch-1
       vars:
         ansible_user: suser
     suser2_group:
       hosts:
         10.3.1.22:
-          new_hostname: m-u-2
+          new_hostname: managed-ubuntu-2
         10.3.1.23:
-          new_hostname: m-u-3
+          new_hostname: managed-ubuntu-3
         10.3.1.32:
-          new_hostname: m-a-2
+          new_hostname: managed-arch-2
       vars:
         ansible_user: suser2
     ubuntus:
@@ -25,7 +25,7 @@ all:
     manjaros:
       hosts:
         10.3.1.41:
-          new_hostname: m-m-1
+          new_hostname: managed-manjaro-1
           ansible_user: manjaro
   vars:
     ansible_ssh_common_args: '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'

@@ -17,7 +17,7 @@
     replace:
       path: /etc/cloud/cloud.cfg
       regexp: '(^preserve_hostname:\s)(.*)$'
-      replace: '\1false'
+      replace: '\1true'
     when: "r.cloud_init_data_facts.result|length > 0"
 
   - name: Update hostnames

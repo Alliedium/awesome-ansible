@@ -14,7 +14,7 @@
     replace:
       path: /etc/cloud/cloud.cfg
       regexp: '(^preserve_hostname:\s)(.*)$'
-      replace: '\1false'
+      replace: '\1true'
     when: register_name.stat.exists
 
   - name: Update hostnames
