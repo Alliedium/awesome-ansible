@@ -1,0 +1,27 @@
+---
+- name: Install pacman mirrors
+  become: yes
+  pacman:
+    name: pacman-mirrors
+  #when:
+
+- name: Set pacman mirrors to Germany
+  become: yes
+  command: pacman-mirrors --country Germany
+  #when:
+
+- name: Update via yay if yay is installed
+  become: no
+  kewlfft.aur.aur:
+    use: yay
+    upgrade: yes
+    update_cache: yes
+    aur_only: no
+  when: "'yay' in ansible_facts.packages"
+
+- name: Otherwise update via pacman
+  become: yes
+  pacman:
+    update_cache: yes
+    upgrade: 'yes'
+  when: "'yay' not in ansible_facts.packages"

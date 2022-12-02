@@ -19,4 +19,4 @@
 
   - name: Update hostnames
     hostname:
-      name: "{{ new_hostname }}"
+      name: "{{ new_hostname_prefix }}{{new_hostname_postfix}}"

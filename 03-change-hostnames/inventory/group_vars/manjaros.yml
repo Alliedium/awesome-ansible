@@ -1,0 +1,3 @@
+---
+new_hostname_prefix: managed-manjaro-
+ansible_user: manjaro

@@ -25,7 +25,7 @@ all:
     manjaros:
       hosts:
         10.3.1.41:
-          new_hostname: m-m-1
+          new_hostname: m-manjaro-1
           ansible_user: manjaro
   vars:
     ansible_ssh_common_args: '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
