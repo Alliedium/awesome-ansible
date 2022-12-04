@@ -1,7 +1,12 @@
 ## Practice --- How to set up manjaro machines
 
 
-1. Run the playbook:
+1. In order to create role run following command:
 ```
-ansible-playbook -i ./inventory/hosts.yaml -v ./playbooks/install_4server_all.yml
+ansible-galaxy init <rolename>
 ```
+Add task(s) into main.yml:
+```
+nano ./<rolename>/tasks/main.yml
+```
+In order to include the role in your playbook, use include_role module.

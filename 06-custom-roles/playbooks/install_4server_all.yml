@@ -32,3 +32,59 @@
   - name: Enable AURs
     include_role:
       name: enable-aurs
+
+  - name: Install dev packages
+    include_role:
+      name: install-dev-packages
+
+  - name: Install nodejs
+    include_role:
+      name: install-nodejs
+
+  - name: Install jdk8, maven
+    include_role:
+      name: install-jdk8-maven
+
+  - name: Install jdk11
+    include_role:
+      name: install-jdk11
+
+  - name: Install zsh
+    include_role:
+      name: install-zsh
+
+  - name: Install aws
+    include_role:
+      name: install-aws
+
+  - name: Install setup git
+    include_role:
+      name: install-setup-git
+
+  - name: Install micromamba
+    include_role:
+      name: install-micromamba
+
+  - name: Install docker
+    include_role:
+      name: install-docker
+
+  - name: Install docker compose
+    include_role:
+      name: install-docker-compose
+
+  - name: Install rust utils
+    include_role:
+      name: install-rust-utils
+
+  - name: Update all via yay or pacman if yay is not installed
+    include_role:
+      name: update-all-via-pacman-or-yay
+
+  - name: Install server extras
+    include_role:
+      name: install-server-extras
+
+  - name: Install julia
+    include_role:
+      name: install-julia
