@@ -1,2 +1,13 @@
 ---
-# defaults file for install-server-extras
+- name: Install stack
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - stack
+
+- name: Install far21-git
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - far21-git
+    extra_args: --nocleanmenu --nodiffmenu

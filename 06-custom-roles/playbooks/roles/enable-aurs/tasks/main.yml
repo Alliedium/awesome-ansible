@@ -36,7 +36,7 @@
   command: 'sed --in-place "s/#EnableAUR/EnableAUR/" "/etc/pamac.conf"'
   when: ansible_facts['kernel'] is search("MANJARO")
 
-- name: Install pigz and pbzip2 for  https://wiki.archlinux.org/index.php/Makepkg#Utilizing_multiple_cores_on_compression
+- name: Install pigz and pbzip2
   kewlfft.aur.aur:
     use: yay
     name:

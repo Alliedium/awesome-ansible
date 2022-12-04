@@ -1,2 +1,7 @@
 ---
-# tasks file for install-docker-compose
+- name: Install docker-compose
+  become: yes
+  pacman:
+    name:
+      - docker-compose
+    state: present

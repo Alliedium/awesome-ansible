@@ -1,2 +1,8 @@
 ---
-# tasks file for install-jdk8-maven
+- name: Install jdk8, maven
+  become: yes
+  pacman:
+    name:
+      - jdk8-openjdk
+      - maven
+    state: present

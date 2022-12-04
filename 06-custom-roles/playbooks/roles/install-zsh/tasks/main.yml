@@ -1,2 +1,7 @@
 ---
-# tasks file for install-zsh
+- name: Install zsh
+  become: yes
+  pacman:
+    name:
+      - zsh
+    state: present

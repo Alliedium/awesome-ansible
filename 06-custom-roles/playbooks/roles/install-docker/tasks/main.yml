@@ -1,2 +1,13 @@
 ---
-# tasks file for install-docker
+- name: Install docker
+  become: yes
+  pacman:
+    name:
+      - docker
+    state: present
+
+- name: Configure docker
+  become: yes
+  command: 'systemctl enable docker --now; usermod -aG docker $USER;'
+
+#TO DO

@@ -1,2 +1,6 @@
 ---
-# tasks file for install-micromamba
+- name: Install micromamba
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - micromamba-bin

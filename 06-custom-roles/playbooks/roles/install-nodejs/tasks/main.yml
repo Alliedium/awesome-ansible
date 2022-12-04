@@ -1,2 +1,16 @@
 ---
-# tasks file for install-nodejs
+- name: Install nodejs, yarn, npm
+  become: yes
+  pacman:
+    name:
+      - nodejs
+      - yarn
+      - npm
+    state: present
+
+- name: Install less
+  become: yes
+  npm:
+    name:
+      - less
+    global: yes

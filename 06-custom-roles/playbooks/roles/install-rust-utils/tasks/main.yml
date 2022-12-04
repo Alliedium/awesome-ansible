@@ -1,2 +1,35 @@
 ---
-# tasks file for install-rust-utils
+- name: Install llvm, clang, rustup
+  become: yes
+  pacman:
+    name:
+      - llvm
+      - clang
+      - rustup
+    state: present
+
+- name: Set up rust
+  command: 'rustup default stable'
+
+- name: Install llvm, clang, rustup
+  become: yes
+  pacman:
+    name:
+      - broot
+      - bandwhich
+      - fd
+      - bat
+      - diff-so-fancy
+      - exa
+      - skim
+    state: present
+
+- name: Install broot
+  command: 'broot --install'
+
+- name: Install dust
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - dust
+    extra_args: --nocleanmenu --nodiffmenu

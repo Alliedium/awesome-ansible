@@ -1,2 +1,12 @@
 ---
-# tasks file for install-setup-git
+- name: Install git, git-lfs, tig
+  become: yes
+  pacman:
+    name:
+      - git
+      - git-lfs
+      - tig
+    state: present
+
+- name: Configure git
+  command: git config --global core.fileMode true

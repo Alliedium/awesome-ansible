@@ -1,2 +1,7 @@
 ---
-# tasks file for install-jdk11
+- name: Install jdk11
+  become: yes
+  pacman:
+    name:
+      - jdk11-openjdk
+    state: present

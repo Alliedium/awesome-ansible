@@ -1,2 +1,6 @@
 ---
-# tasks file for install-julia
+- name: Install julia
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - julia

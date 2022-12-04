@@ -1,2 +1,13 @@
 ---
-# tasks file for install-aws
+- name: Install aws-cli
+  become: yes
+  pacman:
+    name:
+      - aws-cli
+    state: present
+
+- name: Install aws-iam-authenticator-bin
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - aws-iam-authenticator-bin
