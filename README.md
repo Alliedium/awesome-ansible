@@ -129,7 +129,9 @@ Then run `ssh-copy-id` as following (you will be asked to enter password):
 ssh-copy-id -i ~/.ssh/id_rsa_cloudinit.pub <manjaro-user>@<manjaro-ip>
 ```
 Now you are ready to convert the machine to template.
-Further, please create a linked clone basing on this template and change its IP address via `nmtui` tool.
+Further, please create a linked clone basing on this template, connect it to VLAN 3 and set a static IP address via `nmtui` tool.
+According to the hosts.yml, the address is 10.3.1.41/24, gateway and DNS server are set to 10.3.1.1.
+In case your manjaro's address is different, make sure you change it within the inventory.
 
 ## Setting up config machine
 

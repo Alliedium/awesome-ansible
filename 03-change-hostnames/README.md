@@ -14,3 +14,8 @@ ansible-playbook -i ./inventory/hosts.yaml -v ./playbooks/change-hostnames_cidf.
 ```
 ansible-playbook -i ./inventory/hosts_initial.yaml -v ./playbooks/change-hostnames_stat.yml
 ```
+3. Run any playbook, this time using another hosts file, which does not include any variables. Instead, group_vars and host_vars are used to specify all the parameters which may differ on the group or host level.
+Kindly note, that the group_vars and host_vars directories should be placed in ./inventory directory. They include .yml files named exactly as group they apply to, or ip address of a particular host.
+```
+ansible-playbook -i ./inventory/hosts_no_vars.yaml -v ./playbooks/change-hostnames_stat.yml
+```
