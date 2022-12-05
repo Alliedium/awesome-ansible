@@ -131,7 +131,7 @@ ssh-copy-id -i ~/.ssh/id_rsa_cloudinit.pub <manjaro-user>@<manjaro-ip>
 Now you are ready to convert the machine to template.
 Further, please create a linked clone basing on this template and change its IP address via `nmtui` tool.
 
-## Preparing a config machine
+## Setting up config machine
 
 1. Prepare config machine
 * Copy ssh key onto it. To make this run the following command from the machine you have generated your key (same one you use on cloud-init VMs creation)
@@ -153,7 +153,9 @@ sudo apt upgrade
 sudo apt install ansible
 ansible --version
 ```
-3. Create inventory
+
+# 2. General notes on creating your own custom inventory and playbooks
+
 * In order to organize your ansible-related files create directory named ansible as below:
 ```
 mkdir ansible
@@ -167,16 +169,16 @@ mkdir cloud-init-vms
 ```
 nano ./hosts.yml
 ```
-4. Let's see the list of hosts and their variables using the ansible-inventory command, which is used to display or dump the configured inventory as Ansible sees it:
+* Let's see the list of hosts and their variables using the ansible-inventory command, which is used to display or dump the configured inventory as ansible sees it:
 ```
 ansible-inventory -i <path to hosts.yml> --list
 ```
-5. Check connectivity with hosts:
+* Check connectivity with hosts:
 ```
 ansible all -m ping -i inventory
 ```
 
-# 2. Playbook examples
+# 3. Playbook examples
 
 | Example | Details |
 |------|-------|
