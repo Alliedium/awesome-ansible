@@ -134,7 +134,7 @@ Further, please create a linked clone basing on this template and change its IP 
 ## Setting up config machine
 
 1. Prepare config machine
-* Copy ssh key onto it. To make this run the following command from the machine you have generated your key (same one you use on cloud-init VMs creation)
+* Copy _private_ ssh key onto it. To make this run the following command from the machine you have generated your key (same one you use on cloud-init VMs creation)
 ```
 scp -i ~/.ssh/id_rsa_cloudinit ~/.ssh/id_rsa_cloudinit  <username>@<ip address>:~/.ssh/id_rsa_cloudinit
 ```
