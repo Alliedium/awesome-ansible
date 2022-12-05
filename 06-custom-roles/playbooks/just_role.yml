@@ -1,5 +1,0 @@
-- name: Update with yay or pacman and then install yay
-  hosts: archs:manjaros
-  become: yes
-  include_role:
-    - update.yay
