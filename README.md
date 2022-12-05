@@ -105,8 +105,14 @@ set -a; source ./.env.arch; set +a
 
 Follow the Manjaro installation steps from [lesson 22](https://github.com/Alliedium/devops-course-2022/blob/main/22_networks_vlan_opnsense_vms_25-oct-2022/practice.md)
 
-**NOTE:** Before converting the VM to template, run `ssh-copy-id` command from the Proxmox node shell.
-In order to be able to make it, first edit `sshd_config` file on your Manjaro VM:
+Necessary VM parameters: Disk size = 20 GiB, RAM = 3072 MiB (3 GiB) RAM size
+
+**NOTE:** Before converting the VM to template, you will need to copy ssh public key from the Proxmox node shell.
+In order to be able to make it, first enable sshd:
+```
+sudo systemctl enable sshd --now
+```
+Then edit `sshd_config` file on your Manjaro VM:
 ```
 sudo nano /etc/ssh/sshd_config 
 ```
@@ -188,4 +194,5 @@ ansible all -m ping -i inventory
 | [Example 2](./02-install-a-single-package) | update.yml updates available packages using package manager depending on OS; qemu-guest-agent.yml installs qemu-guest-agent using apt module; qemu-guest-agent_package.yml installs qemu-guest-agent using package module |
 | [Example 3](./03-change-hostnames) | change-hostnames_cidf.yml updates hostnames and edits cloud.cfg to preserve hostnames where necessary (detecting cloud-init image-generated VMs using cloud_init_data_facts); change-hostnames_stat.yml updates hostnames and edit cloud.cfg to preserve hostnames if such file exists (using stat for detection) |
 | [Example 4](./04-multiple-tasks-ubuntu) | prep-ubuntu4k3s.yml configures ubuntu machines: installs and starts qemu-guest-agent, removes snap, updates NTP servers |
-| [Example 5](./05-multiple-tasks-manjaro) | install_4server_all.yml configures manjaro and arch machines: removes snap, updates packages, installs git, yay, pacman-cli, enables AUR, installs pigz & pbzip2 | 
+| [Example 5](./05-multiple-tasks-arch-manjaro) | install_4server_all.yml configures manjaro and arch machines: removes snap, updates packages, installs git, yay, pacman-cli, enables AUR, installs pigz & pbzip2 | 
+| [Example 6](./06-custom-roles-arch-manjaro) | install_4server_all.yml configures manjaro and arch machines using custom roles | 
