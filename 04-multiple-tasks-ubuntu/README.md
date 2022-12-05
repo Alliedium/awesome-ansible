@@ -1,4 +1,4 @@
-# How to set up ubuntu machines
+# How to set up Ubuntu machines
 
 ## Prerequisites
 

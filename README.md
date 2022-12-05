@@ -39,7 +39,7 @@ cd ./awesome-linux-config/proxmox7/cloud-init/
 
 ### Creating config VM
 
-If you are going to use a Windows machine as config, you need to create a Linux VM on it, so you would be able to install ansible.
+If you are going to use a Windows machine as config, you need to create a Linux VM on it, so you would be able to install `Ansible`.
    You will need Windows Subsystem for Linux (WSL). Run Windows PowerShell as administrator:
 ```
 wsl --install -d ubuntu
@@ -146,7 +146,7 @@ or
 ```
 chmod 600 ~/.ssh/id_rsa_cloudinit
 ```
-2. Install ansible
+2. Install `Ansible`
 ```
 sudo apt update
 sudo apt upgrade
@@ -156,7 +156,7 @@ ansible --version
 
 # 2. General notes on creating your own custom inventory and playbooks
 
-* In order to organize your ansible-related files create directory named ansible as below:
+* In order to organize your Ansible-related files create directory named `ansible` as below:
 ```
 mkdir ansible
 cd ./ansible
@@ -169,7 +169,7 @@ mkdir cloud-init-vms
 ```
 nano ./hosts.yml
 ```
-* Let's see the list of hosts and their variables using the ansible-inventory command, which is used to display or dump the configured inventory as ansible sees it:
+* Let's see the list of hosts and their variables using the `ansible-inventory` command, which is used to display or dump the configured inventory as `Ansible` sees it:
 ```
 ansible-inventory -i <path to hosts.yml> --list
 ```
