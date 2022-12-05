@@ -1,10 +1,10 @@
-- hosts: manjaros
+- hosts: archs:manjaros
   gather_facts: yes
   tasks:
   - name: Edit sudoers
     become: yes
     community.general.sudoers:
-      name: wheel-nopasswd
+      name: 99-wheel-nopasswd
       group: wheel
       commands: ALL
       nopassword: true
@@ -19,15 +19,9 @@
     package_facts:
       manager: auto
 
-  - name: Update all via yay or pacman if yay is not installed
+  - name: Update all packages
     include_role:
       name: update-all-via-pacman-or-yay
-
-  - name: Install git for building yay from binaries
-    pacman:
-      name: git
-      state: present
-    when: ('yay' not in ansible_facts.packages) and (ansible_facts['kernel'] is not search("MANJARO"))
 
   - name: Enable AURs
     include_role:
@@ -40,22 +34,27 @@
   - name: Install nodejs
     include_role:
       name: install-nodejs
+    when: "'nodejs' in components_to_install"
 
   - name: Install jdk8, maven
     include_role:
       name: install-jdk8-maven
+    when: "'jdk8-maven' in components_to_install"
 
   - name: Install jdk11
     include_role:
       name: install-jdk11
+    when: "'jdk11' in components_to_install"
 
   - name: Install zsh
     include_role:
       name: install-zsh
+    when: "'zsh' in components_to_install"
 
   - name: Install aws
     include_role:
       name: install-aws
+    when: "'aws' in components_to_install"
 
   - name: Install setup git
     include_role:
@@ -64,27 +63,33 @@
   - name: Install micromamba
     include_role:
       name: install-micromamba
+    when: "'micromamba' in components_to_install"
 
   - name: Install docker
     include_role:
       name: install-docker
+    when: "'docker' in components_to_install"
 
   - name: Install docker compose
     include_role:
       name: install-docker-compose
+    when: "'docker-compose' in components_to_install"
 
   - name: Install rust utils
     include_role:
       name: install-rust-utils
+    when: "'rust' in components_to_install"
 
-  - name: Update all via yay or pacman if yay is not installed
+  - name: Update all packages one more time
     include_role:
       name: update-all-via-pacman-or-yay
 
   - name: Install server extras
     include_role:
       name: install-server-extras
+    when: "'server-extras' in components_to_install"
 
   - name: Install julia
     include_role:
       name: install-julia
+    when: "'julia' in components_to_install"

@@ -13,17 +13,20 @@
     state: started
     enabled: yes
 
-- name: Set usermod
-  shell: usermod -aG docker $USER
+- name: Add user to docker group
+  become: yes
+  command: usermod -aG docker {{ lookup('env', 'USER') }}
 
-- name: Become another group
+- name: Become another group for docker
+  # first become another group, this is the same as 'newgrp docker' but inside the same shell
   shell: |
     group=docker
     if [ $(id -gn) != $group ]; then
       exec sg $group "$0 $*"
     fi
 
-- name: Set buildkit true
+- name: Copy over docker config
   become: yes
-  shell: |
-    sh -c 'echo "{ \"features\" : { \"buildkit\": true} }" > /etc/docker/daemon.json'
+  copy:
+    src: ../templates/daemon.json
+    dest: /etc/docker/daemon.json

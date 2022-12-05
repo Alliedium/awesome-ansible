@@ -1,13 +1,5 @@
 all:
   children:
-    ubuntus:
-      hosts:
-        10.3.1.21:
-          ansible_user: suser
-        10.3.1.22:
-          ansible_user: suser2
-        10.3.1.23:
-          ansible_user: suser2
     archs:
       hosts:
         10.3.1.31:

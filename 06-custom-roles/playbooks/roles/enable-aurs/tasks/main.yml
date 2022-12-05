@@ -8,6 +8,12 @@
       - ./yay
   when: ('yay' not in ansible_facts.packages) and (ansible_facts['kernel'] is not search("MANJARO"))
 
+- name: Install git for building yay from binaries
+  pacman:
+    name: git
+    state: present
+  when: ('yay' not in ansible_facts.packages) and (ansible_facts['kernel'] is not search("MANJARO"))
+
 - name: Build yay from binaries
   become: no
   shell: |

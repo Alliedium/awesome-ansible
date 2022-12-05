@@ -1,2 +1,13 @@
 ---
-# tasks file for install-server-extras
+- name: Install Stack Haskell platform (dependency for ERD)
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - stack
+
+- name: Install FAR for Linux
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - far2l-git
+    extra_args: --nocleanmenu --nodiffmenu
