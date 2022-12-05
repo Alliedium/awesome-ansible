@@ -22,10 +22,12 @@
   copy:
     src: ../templates/daemon.json
     dest: /etc/docker/daemon.json
+  register: docker_config
 
-- name: Restart docker after adding daemon.json
+- name: Restart docker after adding/changing daemon.json
   become: yes
   systemd:
     name: docker
     state: restarted
     enabled: yes
+  when: docker_config.changed
