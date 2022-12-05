@@ -15,8 +15,7 @@
 
 - name: Add user to docker group
   become: yes
-  debugger: always
-  command: usermod -aG docker {{ ansible_facts['ansible_env']['USER'] }}
+  command: usermod -aG docker {{ ansible_user }}
 
 - name: Become another group for docker
   # first become another group, this is the same as 'newgrp docker' but inside the same shell
