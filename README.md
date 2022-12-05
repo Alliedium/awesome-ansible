@@ -6,16 +6,17 @@ It is expected that a Proxmox cluster with a node having the name `px-node-I` is
 
 (**NOTE:** if named differently should be edited in the `.env.*` files mentioned below).
 
-It is also assumed that vnet was created in SDN VLAN 3 zone on linux bridge vmbr0, its name is `v3`.
+It is also assumed that `vnet` was created in `SDN VLAN 3` zone on linux bridge `vmbr0`, its name is `v3`.
+
 (**NOTE:** LAN 3 should be set up in `OPNsense` according to the instruction provided at [lesson 29](https://github.com/Alliedium/devops-course-2022/tree/main/29_configuring_opnsense_and_creating_vms_via_scripts_and_manual_10_nov_2022)).
 
-There are at least 2 ways to create the environment: a) automatic and b) manual
+There are at least 2 ways to create necessary VMs for the environment: a) automatic and b) manual
 
 ## Fully-automatic environment creation (Ubuntu as well as Arch instead of Manjaro)
 
 ### Preliminary actions
 
-* Get cloud-init scripts on proxmox node:
+* Get cloud-init scripts on the Proxmox node mentioned above:
 ```
 apt install git
 git clone https://github.com/Alliedium/awesome-linux-config.git
@@ -102,7 +103,7 @@ set -a; source ./.env.arch; set +a
 
 ## Manual VM creation (Manjaro)
 - Follow the Manjaro installation steps from [lesson 22](https://github.com/Alliedium/devops-course-2022/blob/main/22_networks_vlan_opnsense_vms_25-oct-2022/practice.md)
-NOTE: Before converting the VM to template, run `ssh-copy-id` command from the proxmox node shell.
+NOTE: Before converting the VM to template, run `ssh-copy-id` command from the Proxmox node shell.
 In order to be able to make it, first edit `sshd_config` file on your Manjaro VM:
 ```
 sudo nano /etc/ssh/sshd_config 
