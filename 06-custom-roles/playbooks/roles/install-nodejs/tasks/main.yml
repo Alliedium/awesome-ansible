@@ -11,6 +11,5 @@
 - name: Install less
   become: yes
   npm:
-    name:
-      - less
+    name: less
     global: yes

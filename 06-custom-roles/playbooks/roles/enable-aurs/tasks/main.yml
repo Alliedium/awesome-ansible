@@ -33,7 +33,11 @@
   when: ansible_facts['kernel'] is search("MANJARO")
 
 - name: Enable AUR in pamac
-  command: 'sed --in-place "s/#EnableAUR/EnableAUR/" "/etc/pamac.conf"'
+  become: yes
+  replace:
+    path: /etc/pamac.conf
+    regexp: '#EnableAUR'
+    replace: 'EnableAUR'
   when: ansible_facts['kernel'] is search("MANJARO")
 
 - name: Install pigz and pbzip2

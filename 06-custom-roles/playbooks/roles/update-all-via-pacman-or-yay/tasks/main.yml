@@ -3,12 +3,12 @@
   become: yes
   pacman:
     name: pacman-mirrors
-  #when:
+  when: ansible_facts['kernel'] is search("MANJARO")
 
 - name: Set pacman mirrors to Germany
   become: yes
   command: pacman-mirrors --country Germany
-  #when:
+  when: ansible_facts['kernel'] is search("MANJARO")
 
 - name: Update via yay if yay is installed
   become: no
