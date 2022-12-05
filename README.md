@@ -102,7 +102,8 @@ set -a; source ./.env.arch; set +a
 ```
 
 ## Manual VM creation (Manjaro)
-- Follow the Manjaro installation steps from [lesson 22](https://github.com/Alliedium/devops-course-2022/blob/main/22_networks_vlan_opnsense_vms_25-oct-2022/practice.md)
+
+Follow the Manjaro installation steps from [lesson 22](https://github.com/Alliedium/devops-course-2022/blob/main/22_networks_vlan_opnsense_vms_25-oct-2022/practice.md)
 
 **NOTE:** Before converting the VM to template, run `ssh-copy-id` command from the Proxmox node shell.
 In order to be able to make it, first edit `sshd_config` file on your Manjaro VM:
@@ -121,7 +122,7 @@ sudo systemctl restart sshd
 ```
 Then establish the connection from the node via ssh (you will be asked to enter password):
 ```
-ssh <vm-user>@<vm-ip>
+ssh <manjaro-user>@<manjaro-ip>
 ```
 Then run `ssh-copy-id` as following (you will be asked to enter password):
 ```
