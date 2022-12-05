@@ -15,6 +15,7 @@ proxmox node: px-node-I
 
 vnet created in SDN VLAN 3 zone on linux bridge vmbr0: v3
 (LAN 3 should be set up in OPNsense according to the instruction provided at [lesson 29](https://github.com/Alliedium/devops-course-2022/tree/main/29_configuring_opnsense_and_creating_vms_via_scripts_and_manual_10_nov_2022))
+
 ---------------------------------------------------------------------------
 
 ##### Preliminary actions
@@ -138,7 +139,6 @@ Now you are ready to convert the machine to template.
 ---------------------------------------------------------------------------
 #### Preparing a config machine
 
-0. 
 1. Prepare config machine
 * Copy ssh key onto it. To make this run the following command from the machine you have generated your key (same one you use on cloud-init VMs creation)
 ```
