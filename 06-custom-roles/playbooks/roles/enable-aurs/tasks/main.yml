@@ -1,4 +1,11 @@
 ---
+- name: Install yay via pacman
+  become: yes
+  pacman:
+    name: yay
+    state: present
+  when: ('yay' not in ansible_facts.packages) and (ansible_facts['kernel'] is search("MANJARO"))
+
 - name: Remove directories before building yay from binaries
   file:
     state: absent
