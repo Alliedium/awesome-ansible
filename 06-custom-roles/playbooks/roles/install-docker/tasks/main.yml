@@ -6,8 +6,24 @@
       - docker
     state: present
 
-- name: Configure docker
+- name: Enable & start docker
   become: yes
-  command: 'systemctl enable docker --now; usermod -aG docker $USER;'
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
 
-#TO DO
+- name: Set usermod
+  shell: usermod -aG docker $USER
+
+- name: Become another group
+  shell: |
+    group=docker
+    if [ $(id -gn) != $group ]; then
+      exec sg $group "$0 $*"
+    fi
+
+- name: Set buildkit true
+  become: yes
+  shell: |
+    sh -c 'echo "{ \"features\" : { \"buildkit\": true} }" > /etc/docker/daemon.json'
