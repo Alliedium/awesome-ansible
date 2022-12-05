@@ -3,9 +3,9 @@
   file:
     state: absent
     path: "{{ item }}"
-    with_list:
-      - ./yay-bin
-      - ./yay
+  with_list:
+    - ./yay-bin
+    - ./yay
   when: ('yay' not in ansible_facts.packages) and (ansible_facts['kernel'] is not search("MANJARO"))
 
 - name: Install git for building yay from binaries
@@ -26,9 +26,9 @@
   file:
     state: absent
     path: "{{ item }}"
-    with_list:
-      - ./yay-bin
-      - ./yay
+  with_list:
+    - ./yay-bin
+    - ./yay
   when: ('yay' not in ansible_facts.packages) and (ansible_facts['kernel'] is not search("MANJARO"))
 
 - name: Install pamac-cli
