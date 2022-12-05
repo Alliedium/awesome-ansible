@@ -17,16 +17,15 @@
   become: yes
   command: usermod -aG docker {{ ansible_user }}
 
-- name: Become another group for docker
-  # first become another group, this is the same as 'newgrp docker' but inside the same shell
-  shell: |
-    group=docker
-    if [ $(id -gn) != $group ]; then
-      exec sg $group "$0 $*"
-    fi
-
 - name: Copy over docker config
   become: yes
   copy:
     src: ../templates/daemon.json
     dest: /etc/docker/daemon.json
+
+- name: Restart docker after adding daemon.json
+  become: yes
+  systemd:
+    name: docker
+    state: restarted
+    enabled: yes
