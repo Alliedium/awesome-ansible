@@ -15,7 +15,7 @@
 
 - name: Add user to docker group
   become: yes
-  command: usermod -aG docker {{ lookup('env', 'USER') }}
+  command: usermod -aG docker $USER
 
 - name: Become another group for docker
   # first become another group, this is the same as 'newgrp docker' but inside the same shell
