@@ -17,14 +17,11 @@ Add task(s) into main.yml:
 ```
 nano ./<rolename>/tasks/main.yml
 ```
-In order to include the role in your playbook, use include_role module.
+In order to include the role in your playbook, use include_role module. See the [example](./playbooks/install_4server_all.yml).
 
 ## Run playbook
 
-In order to include the role in our playbook include_role module must be used. 
-See the [example](./playbooks/install_4server_all.yml).
-
-Then run the playbook:
+Then run the playbook with -K or --ask-become-pass (we need this for the very first run until at least 1st task setting sudo users access with no password is completed):
 ```
 ansible-playbook -i ./inventory -v ./playbooks/install_4server_all.yml -K
 ```
