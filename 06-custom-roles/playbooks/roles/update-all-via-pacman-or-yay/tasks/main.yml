@@ -25,3 +25,6 @@
     update_cache: yes
     upgrade: 'yes'
   when: "'yay' not in ansible_facts.packages"
+
+- name: Reboot after update
+  reboot:
