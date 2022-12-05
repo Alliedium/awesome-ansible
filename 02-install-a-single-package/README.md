@@ -1,6 +1,9 @@
-## Practice --- How to install packages via Ansible
+# How to install packages via Ansible
 
-1. Run the playbooks:
+Please follow the steps from [Prerequisites](../README.md#prerequisites) prior to executing the commands below.
+
+## Run playbooks
+
 ```
 ansible-playbook -i ./inventory/hosts.yaml -v ./playbooks/update.yml
 ```

@@ -1,7 +1,9 @@
-## Practice --- How to set up manjaro machines
+# How to set up manjaro machines
 
+Please follow the steps from [Prerequisites](../README.md#prerequisites) prior to executing the commands below.
 
-1. Run the playbook:
+## Run playbook
+
 ```
 ansible-playbook -i ./inventory/hosts.yaml -v ./playbooks/install_4server_all.yml
 ```

@@ -1,16 +1,16 @@
-## Practice --- How to change hostnames via Ansible
+# How to change hostnames via Ansible
 
-Prerequisites:
+## Prerequisites
 
----------------------------------------------------------------------------
-0. For this playbook we need new hostnames to be specified.
-Make sure you have this parameter specified for each of your hosts.
+Please follow the steps from [Prerequisites](../README.md#prerequisites) prior to executing the commands below.
 
-1. Then we run the playbook:
+## Run playbooks
+
+1. Run the following playbook:
 ```
 ansible-playbook -i ./inventory/hosts.yaml -v ./playbooks/change-hostnames_cidf.yml
 ```
-2. Run another playbook, this time using stat module just for demonstration purpose, to rename the hosts as it was initially set up (you might have named them differently though):
+2. Run another playbook, this time using stat module just for demonstration purposes, to rename the hosts as it was initially set up (you may name these hosts differently by changing values of respective variables in the inventory):
 ```
 ansible-playbook -i ./inventory/hosts_initial.yaml -v ./playbooks/change-hostnames_stat.yml
 ```

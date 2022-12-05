@@ -1,24 +1,19 @@
-# awesome-ansible
-## Practice --- How to automate machines setup via Ansible 
+# 1. Prerequisites
 
-### 1. Prerequisites
+All the examples that follow will assume that the environment described in this section is configured.
 
-All the examples that follow will assume that the following environment is configured.
+It is expected that a Proxmox cluster with a node having the name `px-node-I` is set up.
+
+(**NOTE:** if named differently should be edited in the `.env.*` files mentioned below).
+
+It is also assumed that vnet was created in SDN VLAN 3 zone on linux bridge vmbr0, its name is `v3`.
+(**NOTE:** LAN 3 should be set up in `OPNsense` according to the instruction provided at [lesson 29](https://github.com/Alliedium/devops-course-2022/tree/main/29_configuring_opnsense_and_creating_vms_via_scripts_and_manual_10_nov_2022)).
 
 There are at least 2 ways to create the environment: a) automatic and b) manual
 
-#### Fully-automatic environment creation (Arch instead of Manjaro)
+## Fully-automatic environment creation (Ubuntu as well as Arch instead of Manjaro)
 
-##### Provisioning
-proxmox node: px-node-I
-(NOTE: if named differently should be edited in the `.env.*` files mentioned below)
-
-vnet created in SDN VLAN 3 zone on linux bridge vmbr0: v3
-(LAN 3 should be set up in OPNsense according to the instruction provided at [lesson 29](https://github.com/Alliedium/devops-course-2022/tree/main/29_configuring_opnsense_and_creating_vms_via_scripts_and_manual_10_nov_2022))
-
----------------------------------------------------------------------------
-
-##### Preliminary actions
+### Preliminary actions
 
 * Get cloud-init scripts on proxmox node:
 ```
@@ -41,7 +36,7 @@ git pull
 cd ./awesome-linux-config/proxmox7/cloud-init/
 ```
 
-##### Creating config VM
+### Creating config VM
 
 If you are going to use a Windows machine as config, you need to create a Linux VM on it, so you would be able to install ansible.
    You will need Windows Subsystem for Linux (WSL). Run Windows PowerShell as administrator:
@@ -74,9 +69,7 @@ set -a; source ./.env.control; set +a
 ./create-vms.sh
 ```
 
----------------------------------------------------------------------------
-
-##### Creating VMs through Cloud Init scripts
+### Creating VMs through Cloud Init scripts
 
 Other steps are to be done both for the cases when WSL is used and when a separate config VM in Proxmox was created.
 
@@ -107,9 +100,7 @@ set -a; source ./.env.arch; set +a
 ./create-vms.sh
 ```
 
----------------------------------------------------------------------------
-
-#### Manual VM creation (Manjaro)
+## Manual VM creation (Manjaro)
 - Follow the Manjaro installation steps from [lesson 22](https://github.com/Alliedium/devops-course-2022/blob/main/22_networks_vlan_opnsense_vms_25-oct-2022/practice.md)
 NOTE: Before converting the VM to template, run `ssh-copy-id` command from the proxmox node shell.
 In order to be able to make it, first edit `sshd_config` file on your Manjaro VM:
@@ -132,12 +123,12 @@ ssh <vm-user>@<vm-ip>
 ```
 Then run `ssh-copy-id` as following (you will be asked to enter password):
 ```
-ssh-copy-id -i ~/.ssh/id_rsa_cloudinit.pub <vm-user>@<vm-ip>
+ssh-copy-id -i ~/.ssh/id_rsa_cloudinit.pub <manjaro-user>@<manjaro-ip>
 ```
 Now you are ready to convert the machine to template.
+Further, please create a linked clone basing on this template and change its IP address via `nmtui` tool.
 
----------------------------------------------------------------------------
-#### Preparing a config machine
+## Preparing a config machine
 
 1. Prepare config machine
 * Copy ssh key onto it. To make this run the following command from the machine you have generated your key (same one you use on cloud-init VMs creation)
@@ -182,7 +173,7 @@ ansible-inventory -i <path to hosts.yml> --list
 ansible all -m ping -i inventory
 ```
 
-### 2. Playbook examples
+# 2. Playbook examples
 
 | Example | Details |
 |------|-------|
@@ -191,16 +182,3 @@ ansible all -m ping -i inventory
 | [Example 3](./03-change-hostnames) | change-hostnames_cidf.yml updates hostnames and edits cloud.cfg to preserve hostnames where necessary (detecting cloud-init image-generated VMs using cloud_init_data_facts); change-hostnames_stat.yml updates hostnames and edit cloud.cfg to preserve hostnames if such file exists (using stat for detection) |
 | [Example 4](./04-multiple-tasks-ubuntu) | prep-ubuntu4k3s.yml configures ubuntu machines: installs and starts qemu-guest-agent, removes snap, updates NTP servers |
 | [Example 5](./05-multiple-tasks-manjaro) | install_4server_all.yml configures manjaro and arch machines: removes snap, updates packages, installs git, yay, pacman-cli, enables AUR, installs pigz & pbzip2 | 
-
-
-## References on: Ansible
-
-1. [How to build your inventory](https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html)
-2. [Ansible facts](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_vars_facts.html#ansible-facts)
-3. [Variables](https://docs.ansible.com/ansible/2.5/user_guide/playbooks_variables.html)
-4. [Return values](https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html)
-5. [Playbook debugger](https://docs.ansible.com/ansible/2.9/user_guide/playbooks_debugger.html)
-6. [Debug module](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/debug_module.html)
-7. [Ansible modules](https://docs.ansible.com/ansible/2.9/modules/list_of_all_modules.html)
-8. [Roles](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html)
-9. [Ansible Galaxy](https://galaxy.ansible.com/)
