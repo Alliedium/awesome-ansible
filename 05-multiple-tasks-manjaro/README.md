@@ -1,4 +1,4 @@
-# How to set up manjaro machines
+# How to set up Arch and Manjaro machines
 
 Please follow the steps from [Prerequisites](../README.md#prerequisites) prior to executing the commands below.
 
