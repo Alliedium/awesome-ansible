@@ -3,10 +3,7 @@
 Please follow the steps from [Prerequisites](../README.md#prerequisites) prior to executing the commands below.
 
 
-## Run playbook
-=======
 Besides, install all necessary requirements by executing the command:
->>>>>>> fde8f0c (some improvements)
 
 ```
 ansible-galaxy install -r ./collections/requirements.yml
