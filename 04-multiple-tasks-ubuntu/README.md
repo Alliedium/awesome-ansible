@@ -29,5 +29,5 @@ ansible-galaxy list
 ## Run playbook
 
 ```
-ansible-playbook -i ./inventory/hosts.yaml -v ./playbooks/prep-ubuntu4k3s.yml
+ansible-playbook -i ./inventory -v ./playbooks/prep-ubuntu4k3s.yml
 ```

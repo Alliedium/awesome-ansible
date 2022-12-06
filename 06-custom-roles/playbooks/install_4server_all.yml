@@ -1,6 +1,20 @@
 - hosts: archs:manjaros
   gather_facts: yes
   tasks:
+  - name: Wait for system to become reachable
+    wait_for_connection:
+      timeout: 600
+
+  - name: Detect if cloud-init generated
+    stat:
+      path: /etc/cloud/cloud.cfg
+    register: register_name
+
+  - name: Wait for cloud-init / user-data to finish
+    command: cloud-init status --wait
+    changed_when: no
+    when: register_name.stat.exists
+
   - name: Edit sudoers
     become: yes
     community.general.sudoers:
