@@ -1,0 +1,25 @@
+---
+- name: Change hostname
+  hosts: "*"
+  become: yes
+  gather_facts: no
+  tasks:
+
+  - name: Gather all facts of cloud init
+    community.general.cloud_init_data_facts:
+      filter: result
+    register: r
+
+  - debug:
+      var: r
+
+  - name: Turn off preserve hostname in cloud config
+    replace:
+      path: /etc/cloud/cloud.cfg
+      regexp: '(^preserve_hostname:\s)(.*)$'
+      replace: '\1true'
+    when: "r.cloud_init_data_facts.result|length > 0"
+
+  - name: Update hostnames
+    hostname:
+      name: "{{ new_hostname_prefix }}{{ new_hostname_postfix }}"

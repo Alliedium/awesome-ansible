@@ -83,6 +83,9 @@ set -a; source ./.env.ubuntu; set +a
 ```
 ./create-vms.sh
 ```
+NOTE: before starting the VMs go to CloudInit tab on Proxmox UI and edit username to be suser2 on hosts: 
+10.3.1.22, 10.3.1.23.
+
 * Copy & edit (if necessary) [.env.arch](./cloud-init/.env.arch) (from this repository!)
 * Apply env:
 ```
@@ -100,6 +103,8 @@ set -a; source ./.env.arch; set +a
 ```
 ./create-vms.sh
 ```
+NOTE: before starting the VMs go to CloudInit tab on Proxmox UI and edit username to be suser2 on host:
+10.3.1.32.
 
 ## Manual VM creation (Manjaro)
 

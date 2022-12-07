@@ -1,8 +1,0 @@
-- name: install latest mc
-  hosts: "*"
-  become: yes
-  tasks:
-    - name: install mc
-      package:
-        name: mc
-        state: latest

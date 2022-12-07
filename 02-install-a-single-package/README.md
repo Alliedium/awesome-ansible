@@ -11,5 +11,5 @@ ansible-playbook -i ./inventory/hosts.yaml -v ./playbooks/update.yml
 ansible-playbook -i ./inventory/hosts.yaml -v ./playbooks/qemu-guest-agent.yml
 ```
 ```
-ansible-playbook -i ./inventory/hosts.yaml -v ./playbooks/qemu-guest-agent_package.yml
+ansible-playbook -i ./inventory/hosts.yaml -v ./playbooks/qemu-guest-agent-package.yml
 ```

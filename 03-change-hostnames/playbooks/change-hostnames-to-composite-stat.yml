@@ -1,0 +1,22 @@
+---
+- name: Change hostname
+  hosts: "*"
+  become: yes
+  gather_facts: no
+  tasks:
+
+  - name: Save path to cloud config
+    stat:
+      path: /etc/cloud/cloud.cfg
+    register: register_name
+
+  - name: Turn off preserve hostname in cloud config
+    replace:
+      path: /etc/cloud/cloud.cfg
+      regexp: '(^preserve_hostname:\s)(.*)$'
+      replace: '\1true'
+    when: register_name.stat.exists
+
+  - name: Update hostnames
+    hostname:
+      name: "{{ new_hostname_prefix }}{{ new_hostname_postfix }}"
