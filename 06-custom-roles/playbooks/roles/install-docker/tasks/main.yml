@@ -1,0 +1,33 @@
+---
+- name: Install docker
+  become: yes
+  pacman:
+    name:
+      - docker
+    state: present
+
+- name: Enable & start docker
+  become: yes
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Add user to docker group
+  become: yes
+  command: usermod -aG docker {{ ansible_user }}
+
+- name: Copy over docker config
+  become: yes
+  copy:
+    src: ../templates/daemon.json
+    dest: /etc/docker/daemon.json
+  register: docker_config
+
+- name: Restart docker after adding/changing daemon.json
+  become: yes
+  systemd:
+    name: docker
+    state: restarted
+    enabled: yes
+  when: docker_config.changed

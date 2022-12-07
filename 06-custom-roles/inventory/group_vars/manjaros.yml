@@ -1,0 +1,9 @@
+---
+components_to_install:
+  - jdk8-maven
+  - jdk11
+  - zsh
+  - aws
+  - docker
+  - docker-compose
+  - server-extras

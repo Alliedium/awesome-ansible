@@ -83,6 +83,9 @@ set -a; source ./.env.ubuntu; set +a
 ```
 ./create-vms.sh
 ```
+NOTE: before starting the VMs go to CloudInit tab on Proxmox UI and edit username to be suser2 on hosts: 
+10.3.1.22, 10.3.1.23.
+
 * Copy & edit (if necessary) [.env.arch](./cloud-init/.env.arch) (from this repository!)
 * Apply env:
 ```
@@ -100,13 +103,21 @@ set -a; source ./.env.arch; set +a
 ```
 ./create-vms.sh
 ```
+NOTE: before starting the VMs go to CloudInit tab on Proxmox UI and edit username to be suser2 on host:
+10.3.1.32.
 
 ## Manual VM creation (Manjaro)
 
 Follow the Manjaro installation steps from [lesson 22](https://github.com/Alliedium/devops-course-2022/blob/main/22_networks_vlan_opnsense_vms_25-oct-2022/practice.md)
 
-**NOTE:** Before converting the VM to template, run `ssh-copy-id` command from the Proxmox node shell.
-In order to be able to make it, first edit `sshd_config` file on your Manjaro VM:
+Necessary VM parameters: Disk size = 20 GiB, RAM = 3072 MiB (3 GiB) RAM size
+
+**NOTE:** Before converting the VM to template, you will need to copy ssh public key from the Proxmox node shell.
+In order to be able to make it, first enable sshd:
+```
+sudo systemctl enable sshd --now
+```
+Then edit `sshd_config` file on your Manjaro VM:
 ```
 sudo nano /etc/ssh/sshd_config 
 ```
@@ -129,7 +140,9 @@ Then run `ssh-copy-id` as following (you will be asked to enter password):
 ssh-copy-id -i ~/.ssh/id_rsa_cloudinit.pub <manjaro-user>@<manjaro-ip>
 ```
 Now you are ready to convert the machine to template.
-Further, please create a linked clone basing on this template and change its IP address via `nmtui` tool.
+Further, please create a linked clone basing on this template, connect it to VLAN 3 and set a static IP address via `nmtui` tool.
+According to the hosts.yml, the address is 10.3.1.41/24, gateway and DNS server are set to 10.3.1.1.
+In case your manjaro's address is different, make sure you change it within the inventory.
 
 ## Setting up config machine
 
@@ -184,6 +197,7 @@ ansible all -m ping -i inventory
 |------|-------|
 | [Example 1](./01-ping-hosts) | ping.yml pings hosts and prints facts; contains multiple hosts examples: range, ungrouped, grouped |
 | [Example 2](./02-install-a-single-package) | update.yml updates available packages using package manager depending on OS; qemu-guest-agent.yml installs qemu-guest-agent using apt module; qemu-guest-agent_package.yml installs qemu-guest-agent using package module |
-| [Example 3](./03-change-hostnames) | change-hostnames_cidf.yml updates hostnames and edits cloud.cfg to preserve hostnames where necessary (detecting cloud-init image-generated VMs using cloud_init_data_facts); change-hostnames_stat.yml updates hostnames and edit cloud.cfg to preserve hostnames if such file exists (using stat for detection) |
+| [Example 3](./03-change-hostnames) | change-hostnames-simple-cidf.yml updates hostnames and edits cloud.cfg to preserve hostnames where necessary (detecting cloud-init image-generated VMs using cloud_init_data_facts); change-hostnames-simple-stat.yml updates hostnames and edit cloud.cfg to preserve hostnames if such file exists (using stat for detection); change-hostnames-composite-stat.yml and change-hostnames-composite-cidf.yml do the same thing but using group_vars and host_vars to compose the new hostname|
 | [Example 4](./04-multiple-tasks-ubuntu) | prep-ubuntu4k3s.yml configures ubuntu machines: installs and starts qemu-guest-agent, removes snap, updates NTP servers |
-| [Example 5](./05-multiple-tasks-manjaro) | install_4server_all.yml configures manjaro and arch machines: removes snap, updates packages, installs git, yay, pacman-cli, enables AUR, installs pigz & pbzip2 | 
+| [Example 5](./05-multiple-tasks-arch-manjaro) | install-4server-all.yml configures manjaro and arch machines: removes snap, updates packages, installs git, yay, pacman-cli, enables AUR, installs pigz & pbzip2 | 
+| [Example 6](./06-custom-roles-arch-manjaro) | install-4server-all.yml configures manjaro and arch machines using custom roles | 

@@ -1,7 +1,7 @@
 - name: install latest qemu-guest-agent
   hosts: "*"
   gather_facts: yes
-#  debugger: always
+  debugger: always
   tasks:
     - name: print all available facts
       debug:
