@@ -18,6 +18,8 @@
     update_cache: yes
     aur_only: no
   when: "'yay' in ansible_facts.packages"
+  notify:
+  - Reboot after update
 
 - name: Otherwise update via pacman
   become: yes
@@ -25,7 +27,8 @@
     update_cache: yes
     upgrade: 'yes'
   when: "'yay' not in ansible_facts.packages"
+  notify:
+  - Reboot after update
 
-- name: Reboot after update
-  become: yes
-  reboot:
+- name: Flush handlers
+  meta: flush_handlers

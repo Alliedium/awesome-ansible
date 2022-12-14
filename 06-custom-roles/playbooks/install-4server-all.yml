@@ -1,19 +1,25 @@
 - hosts: archs:manjaros
   gather_facts: yes
-  tasks:
+  pre_tasks:
   - name: Wait for system to become reachable
     wait_for_connection:
       timeout: 600
+    tags:
+      - preinstall
 
   - name: Detect if cloud-init generated
     stat:
       path: /etc/cloud/cloud.cfg
-    register: register_name
+    register: cloud_init_cfg
+    tags:
+      - preinstall
 
   - name: Wait for cloud-init / user-data to finish
     command: cloud-init status --wait
     changed_when: no
-    when: register_name.stat.exists
+    when: cloud_init_cfg.stat.exists
+    tags:
+      - preinstall
 
   - name: Edit sudoers
     become: yes
@@ -24,6 +30,8 @@
       nopassword: true
       state: present
       validation: required
+    tags:
+      - preinstall
 
   - name: Remove snap
     include_role:
@@ -33,77 +41,31 @@
     package_facts:
       manager: auto
 
-  - name: Update all packages
-    include_role:
-      name: update-all-via-pacman-or-yay
-
-  - name: Enable AURs
-    include_role:
-      name: enable-aurs
-
-  - name: Install dev packages
-    include_role:
-      name: install-dev-packages
-
-  - name: Install nodejs
-    include_role:
-      name: install-nodejs
+  roles:
+  - update-all-via-pacman-or-yay
+  - enable-aurs
+  - install-dev-packages
+  - role: install-nodejs
     when: "'nodejs' in components_to_install"
-
-  - name: Install jdk8, maven
-    include_role:
-      name: install-jdk8-maven
+  - role: install-jdk8-maven
     when: "'jdk8-maven' in components_to_install"
-
-  - name: Install jdk11
-    include_role:
-      name: install-jdk11
+  - role: install-jdk11
     when: "'jdk11' in components_to_install"
-
-  - name: Install zsh
-    include_role:
-      name: install-zsh
+  - role: install-zsh
     when: "'zsh' in components_to_install"
-
-  - name: Install aws
-    include_role:
-      name: install-aws
+  - role: install-aws
     when: "'aws' in components_to_install"
-
-  - name: Install setup git
-    include_role:
-      name: install-setup-git
-
-  - name: Install micromamba
-    include_role:
-      name: install-micromamba
+  - install-setup-git
+  - role: install-micromamba
     when: "'micromamba' in components_to_install"
-
-  - name: Install docker
-    include_role:
-      name: install-docker
+  - role: install-docker
     when: "'docker' in components_to_install"
-
-  - name: Install docker compose
-    include_role:
-      name: install-docker-compose
+  - role: install-docker-compose
     when: "'docker-compose' in components_to_install"
-
-  - name: Install rust utils
-    include_role:
-      name: install-rust-utils
+  - role: install-rust-utils
     when: "'rust' in components_to_install"
-
-  - name: Update all packages one more time
-    include_role:
-      name: update-all-via-pacman-or-yay
-
-  - name: Install server extras
-    include_role:
-      name: install-server-extras
+  - update-all-via-pacman-or-yay
+  - role: install-server-extras
     when: "'server-extras' in components_to_install"
-
-  - name: Install julia
-    include_role:
-      name: install-julia
+  - role: install-julia
     when: "'julia' in components_to_install"

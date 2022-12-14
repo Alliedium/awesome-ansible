@@ -19,15 +19,8 @@
 
 - name: Copy over docker config
   become: yes
-  copy:
-    src: ../templates/daemon.json
+  template:
+    src: daemon.json.j2
     dest: /etc/docker/daemon.json
-  register: docker_config
-
-- name: Restart docker after adding/changing daemon.json
-  become: yes
-  systemd:
-    name: docker
-    state: restarted
-    enabled: yes
-  when: docker_config.changed
+  notify:
+  - Restart docker after adding/changing daemon.json
