@@ -1,10 +1,15 @@
 ---
+- name: Set additional facts
+  set_fact:
+    is_manjaro_without_yay: "{{ is_manjaro and (not is_yay) }}"
+    is_arch_without_yay: "{{ (not is_manjaro) and (not is_yay) }}"
+
 - name: Install yay via pacman
   become: yes
   pacman:
     name: yay
     state: present
-  when: ('yay' not in ansible_facts.packages) and (ansible_facts['kernel'] is search("MANJARO"))
+  when: is_manjaro_without_yay
 
 - name: Remove directories before building yay from binaries
   file:
@@ -13,13 +18,13 @@
   loop:
     - ./yay-bin
     - ./yay
-  when: ('yay' not in ansible_facts.packages) and (ansible_facts['kernel'] is not search("MANJARO"))
+  when: is_arch_without_yay
 
 - name: Install git for building yay from binaries
   pacman:
     name: git
     state: present
-  when: ('yay' not in ansible_facts.packages) and (ansible_facts['kernel'] is not search("MANJARO"))
+  when: is_arch_without_yay
 
 - name: Build yay from binaries
   become: no
@@ -27,7 +32,7 @@
     git clone https://aur.archlinux.org/yay-bin.git
     cd ./yay-bin
     makepkg -si --noconfirm
-  when: ('yay' not in ansible_facts.packages) and (ansible_facts['kernel'] is not search("MANJARO"))
+  when: is_arch_without_yay
 
 - name: Remove directories after building yay from binaries
   file:
@@ -36,14 +41,14 @@
   loop:
     - ./yay-bin
     - ./yay
-  when: ('yay' not in ansible_facts.packages) and (ansible_facts['kernel'] is not search("MANJARO"))
+  when: is_arch_without_yay
 
 - name: Install pamac-cli
   become: no
   kewlfft.aur.aur:
     use: yay
     name: pamac-cli
-  when: ansible_facts['kernel'] is search("MANJARO")
+  when: is_manjaro
 
 - name: Enable AUR in pamac
   become: yes
@@ -51,7 +56,7 @@
     path: /etc/pamac.conf
     regexp: '#EnableAUR'
     replace: 'EnableAUR'
-  when: ansible_facts['kernel'] is search("MANJARO")
+  when: is_manjaro
 
 - name: Install pigz and pbzip2
   kewlfft.aur.aur:

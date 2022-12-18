@@ -41,6 +41,11 @@
     package_facts:
       manager: auto
 
+  - name: Set facts on yay and Manjaro
+    set_fact:
+      is_yay: "{{ 'yay' in ansible_facts.packages }}"
+      is_manjaro: '{{ ansible_facts["kernel"] is search("MANJARO") }}'
+
   roles:
   - update-all-via-pacman-or-yay
   - enable-aurs

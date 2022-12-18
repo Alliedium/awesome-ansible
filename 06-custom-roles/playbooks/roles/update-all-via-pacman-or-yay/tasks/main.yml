@@ -3,12 +3,12 @@
   become: yes
   pacman:
     name: pacman-mirrors
-  when: ansible_facts['kernel'] is search("MANJARO")
+  when: is_manjaro
 
 - name: Set pacman mirrors
   become: yes
   command: pacman-mirrors --country {{ pacman_mirrors_country }}
-  when: ansible_facts['kernel'] is search("MANJARO")
+  when: is_manjaro
 
 - name: Update via yay if yay is installed
   become: no
@@ -17,7 +17,7 @@
     upgrade: yes
     update_cache: yes
     aur_only: no
-  when: "'yay' in ansible_facts.packages"
+  when: is_yay
   notify:
   - Reboot after update
 
@@ -26,7 +26,7 @@
   pacman:
     update_cache: yes
     upgrade: 'yes'
-  when: "'yay' not in ansible_facts.packages"
+  when: not is_yay
   notify:
   - Reboot after update
 
