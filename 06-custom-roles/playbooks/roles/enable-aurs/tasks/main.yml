@@ -1,62 +1,57 @@
 ---
-- name: Set additional facts
-  set_fact:
-    is_manjaro_without_yay: "{{ is_manjaro and (not is_yay) }}"
-    is_arch_without_yay: "{{ (not is_manjaro) and (not is_yay) }}"
-
 - name: Install yay via pacman
   become: yes
   pacman:
     name: yay
     state: present
-  when: is_manjaro_without_yay
+  when: is_manjaro and (not is_yay)
 
-- name: Remove directories before building yay from binaries
-  file:
-    state: absent
-    path: "{{ item }}"
-  loop:
-    - ./yay-bin
-    - ./yay
-  when: is_arch_without_yay
+- name: Build yay for Arch from binaries
+  when: (not is_manjaro) and (not is_yay)
+  block:
+    - name: Remove directories before building yay from binaries
+      file:
+        state: absent
+        path: "{{ item }}"
+      loop:
+        - ./yay-bin
+        - ./yay
 
-- name: Install git for building yay from binaries
-  pacman:
-    name: git
-    state: present
-  when: is_arch_without_yay
+    - name: Install git for building yay from binaries
+      pacman:
+        name: git
+        state: present
 
-- name: Build yay from binaries
-  become: no
-  shell: |
-    git clone https://aur.archlinux.org/yay-bin.git
-    cd ./yay-bin
-    makepkg -si --noconfirm
-  when: is_arch_without_yay
+    - name: Build yay from binaries
+      become: no
+      shell: |
+        git clone https://aur.archlinux.org/yay-bin.git
+        cd ./yay-bin
+        makepkg -si --noconfirm
 
-- name: Remove directories after building yay from binaries
-  file:
-    state: absent
-    path: "{{ item }}"
-  loop:
-    - ./yay-bin
-    - ./yay
-  when: is_arch_without_yay
+    - name: Remove directories after building yay from binaries
+      file:
+        state: absent
+        path: "{{ item }}"
+      loop:
+        - ./yay-bin
+        - ./yay
 
-- name: Install pamac-cli
-  become: no
-  kewlfft.aur.aur:
-    use: yay
-    name: pamac-cli
+- name: Configure pamac for Manjaro
   when: is_manjaro
+  block:
+    - name: Install pamac-cli
+      become: no
+      kewlfft.aur.aur:
+        use: yay
+        name: pamac-cli
 
-- name: Enable AUR in pamac
-  become: yes
-  replace:
-    path: /etc/pamac.conf
-    regexp: '#EnableAUR'
-    replace: 'EnableAUR'
-  when: is_manjaro
+    - name: Enable AUR in pamac
+      become: yes
+      replace:
+        path: /etc/pamac.conf
+        regexp: '#EnableAUR'
+        replace: 'EnableAUR'
 
 - name: Install pigz and pbzip2
   kewlfft.aur.aur:

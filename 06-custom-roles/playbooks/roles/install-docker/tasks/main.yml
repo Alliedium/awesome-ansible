@@ -17,7 +17,7 @@
   become: yes
   command: usermod -aG docker {{ ansible_user }}
 
-- name: Copy over docker config
+- name: Create docker config
   become: yes
   template:
     src: daemon.json.j2
