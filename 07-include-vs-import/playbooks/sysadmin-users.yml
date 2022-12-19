@@ -4,13 +4,13 @@
   tasks:
     - name: Get zsh path
       command: which zsh
-      register: zsh_path
+      register: zsh_path_result
       changed_when: no
 
     - include_role:
         name: sysadmin-user
       vars:
-        zsh_path: "{{ zsh_path.stdout }}"
+        zsh_path: "{{ zsh_path_result.stdout }}"
       loop: "{{ users }}"
       loop_control:
         loop_var: user
