@@ -1,4 +1,8 @@
 ---
+- debug:
+    msg: Processing user {{ user }}
+  changed_when: no
+
 - include_role:
     name: "{{ role }}"
   become: "{{ user }}"

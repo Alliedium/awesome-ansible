@@ -1,17 +1,17 @@
-- name: Create/update user
+- name: Create/update user {{ user }}
   become: yes
   user:
     name: "{{ user }}"
     shell: "{{ zsh_path }}"
     state: present
 
-- name: Add user to secondary groups
+- name: Add user {{ user }} to secondary groups
   become: yes
   user:
     name: "{{ user }}"
     groups: "{{ group_name }}"
     append: yes
-  when: '{{ group_name }} in ansible_facts.getent_group'
+  when: "'{{ group_name }}' in ansible_facts.getent_group"
   loop:
     - docker
     - libvirt
