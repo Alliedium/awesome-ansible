@@ -17,17 +17,17 @@
         - ./yay-bin
         - ./yay
 
-    - name: Install git for building yay from binaries
-      pacman:
-        name: git
-        state: present
-
+    - name: Clone yay-bin
+      become: no
+      git:
+        repo: https://aur.archlinux.org/yay-bin.git
+        dest: ./yay-bin
+ 
     - name: Build yay from binaries
       become: no
-      shell: |
-        git clone https://aur.archlinux.org/yay-bin.git
-        cd ./yay-bin
-        makepkg -si --noconfirm
+      command:
+        cmd: makepkg -si --noconfirm
+        chdir: ./yay-bin
 
     - name: Remove directories after building yay from binaries
       file:

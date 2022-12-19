@@ -1,0 +1,12 @@
+---
+- include_role:
+    name: "{{ role }}"
+  become: "{{ user }}"
+  loop:
+    - config-jupyter
+    - install-ohmyzsh
+    - config-diff-so-fancy
+    - config-git
+    - config-tig
+  loop_control:
+    loop_var: role

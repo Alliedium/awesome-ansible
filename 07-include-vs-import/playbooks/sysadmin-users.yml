@@ -1,0 +1,16 @@
+---
+- hosts: archs:manjaros
+  gather_facts: no
+  tasks:
+    - name: Get zsh path
+      command: which zsh
+      register: zsh_path
+      changed_when: no
+
+    - include_role:
+        name: sysadmin-user
+      vars:
+        zsh_path: "{{ zsh_path.stdout }}"
+      loop: "{{ users }}"
+      loop_control:
+        loop_var: user

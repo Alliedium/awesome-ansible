@@ -1,0 +1,9 @@
+---
+- hosts: archs:manjaros
+  gather_facts: no
+  tasks:
+    - include_role:
+        name: install-server-stuff-user
+      loop: "{{ users }}"
+      loop_control:
+        loop_var: user

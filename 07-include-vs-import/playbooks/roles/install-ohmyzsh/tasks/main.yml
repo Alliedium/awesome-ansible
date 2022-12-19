@@ -1,0 +1,84 @@
+---
+- find:
+    path: $HOME
+    hidden: yes
+    file_type: any
+    pattern: .fzf*
+  register: fzf_to_delete
+
+- find:
+    path: $HOME
+    hidden: yes
+    file_type: any
+    pattern: .zshrc*
+  register: zshrc_to_delete
+
+- find:
+    path: $HOME/.cache
+    file_type: any
+    pattern: p10k*
+  register: p10k_to_delete
+
+- name: Remove old files and folders
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: >
+    {{
+      fzf_to_delete.files
+      + zshrc_to_delete.files
+      + p10k_to_delete.files
+    }}
+
+- name: set ZSH_CUSTOM
+  set_fact:
+    ZSH_CUSTOM: "{{ $HOME/.oh-my-zsh/custom }}"
+
+- name: Download oh-my-zsh installer
+  get_url: 
+    url: https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh
+    dest: /tmp/oh-my-zsh-installer.sh
+    mode: 0755
+
+- name: Execute oh-my-zsh installer
+  shell: /tmp/oh-my-zsh-installer.sh --unattended
+
+- name: Remove oh-my-zsh installer
+  file:
+    path: /tmp/oh-my-zsh-installer.sh
+    state: absent
+
+- name: Clone powerlevel10k
+  git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: "{{ ZSH_CUSTOM }}/themes/powerlevel10k"
+    depth: 1
+
+- name: Clone fzf
+  git:
+    repo: https://github.com/junegunn/fzf.git
+    dest: $HOME/.fzf
+    depth: 1
+
+- name: Install fzf
+  command: $HOME/.fzf/install --all
+
+- name: Clone plugins
+  git:
+    repo: "{{ repo }}"
+    dest: "{{ ZSH_CUSTOM }}/plugins/{{ repo | regex_replace('\/([\w-]+)(\.git|)$', '\\1') }}"
+  loop:
+    - https://github.com/Aloxaf/fzf-tab
+    - https://github.com/zsh-users/zsh-syntax-highlighting.git
+    - https://github.com/zsh-users/zsh-autosuggestions
+    - https://github.com/zsh-users/zsh-completions
+  loop_control:
+    loop_var: repo
+
+- name: Copy config files
+  copy:
+    src: ../files/{{ item }}
+    dest: $HOME
+  loop:
+    - .zshrc
+    - .p10k.zsh

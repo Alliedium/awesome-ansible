@@ -1,0 +1,21 @@
+---
+- name: Remove old folder
+  file:
+    path: $HOME/.jupyter
+    state: absent
+
+- name: Copy config folder
+  copy:
+    src: ../files/.jupyter
+    dest: $HOME/
+
+- name: Make copies of files within config folder
+  copy:
+    remote_src: true
+    src: $HOME/.jupyter/jupyter_notebook_config.{{ extension }}
+    dest: $HOME/.jupyter/jupyter_lab_config.{{ extension }}
+  loop:
+    - py
+    - json
+  loop_control:
+    loop_var: extension

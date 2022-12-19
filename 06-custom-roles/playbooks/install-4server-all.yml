@@ -61,8 +61,7 @@
     when: "'jdk8-maven' in components_to_install"
   - role: install-jdk11
     when: "'jdk11' in components_to_install"
-  - role: install-zsh
-    when: "'zsh' in components_to_install"
+  - install-zsh
   - role: install-aws
     when: "'aws' in components_to_install"
   - install-setup-git

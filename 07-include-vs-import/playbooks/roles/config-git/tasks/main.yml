@@ -1,0 +1,10 @@
+---
+- git_config:
+    name: core.fileMode
+    scope: global
+    value: "true"
+
+- git_config:
+    name: core.editor
+    scope: global
+    value: "nvim"

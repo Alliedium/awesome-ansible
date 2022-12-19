@@ -1,0 +1,5 @@
+---
+- name: Copy config file
+  copy:
+    src: ../files/.tigrc
+    dest: $HOME
