@@ -18,7 +18,7 @@
 - name: Create .zprofile if it doesn't exist
   file:
     path: $HOME/.zprofile
-    state: file
+    state: touch
 
 - name: Check if binary is exported, if no add this config to .zprofile
   lineinfile:
