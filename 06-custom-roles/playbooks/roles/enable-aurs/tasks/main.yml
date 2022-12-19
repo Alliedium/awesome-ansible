@@ -62,6 +62,18 @@
       - plzip
 
 - name: Enable parallel compression for AUR packages
+  debug:
+    msg: "{{ compression_command | regex_replace('^(\\w+)=', '\\1') }}"
+  loop:
+    - 'COMPRESSZST=(zstd -c -z -q --threads=0 -)'
+    - 'COMPRESSXZ=(xz -c -z --threads=0 -)'
+    - 'COMPRESSGZ=(pigz -c -f -n)'
+    - 'COMPRESSBZ2=(pbzip2 -c -f)'
+    - 'COMPERSSLZ=(plzip -c -f)'
+  loop_control:
+    loop_var: compression_command
+
+- name: Enable parallel compression for AUR packages
   become: yes
   lineinfile:
     path: /etc/makepkg.conf
