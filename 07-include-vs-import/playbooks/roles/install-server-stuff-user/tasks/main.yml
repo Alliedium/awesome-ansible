@@ -1,0 +1,14 @@
+---
+- name: Processing user {{ user }}
+  become_user: "{{ user }}"
+  block:
+    - import_role:
+        name: config-jupyter
+    - import_role:
+        name: install-ohmyzsh
+    - import_role:
+        name: config-diff-so-fancy
+    - import_role:
+        name: config-git
+    - import_role:
+        name: config-tig
