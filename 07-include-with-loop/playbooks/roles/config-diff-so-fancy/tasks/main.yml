@@ -15,6 +15,11 @@
     scope: global
     value: "diff-so-fancy | less --tabs=4 -RFX"
 
+- name: Create .zprofile if it doesn't exist
+  file:
+    path: $HOME/.zprofile
+    state: file
+
 - name: Check if binary is exported, if no add this config to .zprofile
   lineinfile:
     path: $HOME/.zprofile
