@@ -19,7 +19,7 @@
     pattern: p10k*
   register: p10k_to_delete
 
-- name: Remove old files and folders
+- name: Remove previous files and folders by patterns
   file:
     path: "{{ item.path }}"
     state: absent
@@ -29,6 +29,12 @@
       + zshrc_to_delete.files
       + p10k_to_delete.files
     }}
+
+- name: Remove previous files and folders by names
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
     - $HOME/.oh-my-zsh
     - $HOME/.p10k.zsh
     - $HOME/.shell.pre-oh-my-zsh
