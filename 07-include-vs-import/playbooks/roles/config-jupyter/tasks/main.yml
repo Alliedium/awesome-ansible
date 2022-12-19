@@ -1,9 +1,4 @@
 ---
-- name: Remove old folder
-  file:
-    path: $HOME/.jupyter
-    state: absent
-
 - name: Copy config folder
   copy:
     src: ../files/.jupyter
