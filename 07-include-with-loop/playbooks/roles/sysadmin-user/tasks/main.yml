@@ -11,7 +11,7 @@
     name: "{{ user }}"
     groups: "{{ group_name }}"
     append: yes
-  when: "'{{ group_name }}' in ansible_facts.getent_group"
+  when: group_name in ansible_facts.getent_group
   loop:
     - docker
     - libvirt
