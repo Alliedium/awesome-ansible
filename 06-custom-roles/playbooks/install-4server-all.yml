@@ -1,6 +1,7 @@
-- hosts: archs:manjaros
-  gather_facts: yes
-  pre_tasks:
+- name: Wait when all hosts are ready
+  hosts: archs:manjaros
+  gather_facts: no
+  tasks:
   - name: Wait for system to become reachable
     wait_for_connection:
       timeout: 600
@@ -21,6 +22,10 @@
     tags:
       - preinstall
 
+- name: Configure hosts and install server components
+  hosts: archs:manjaros
+  gather_facts: yes
+  pre_tasks:
   - name: Edit sudoers
     become: yes
     community.general.sudoers:
