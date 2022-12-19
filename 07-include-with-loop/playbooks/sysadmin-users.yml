@@ -7,6 +7,11 @@
       register: zsh_path_result
       changed_when: no
 
+    - name: Get all groups
+      getent:
+        database: group
+        split: ":"
+
     - include_role:
         name: sysadmin-user
       vars:

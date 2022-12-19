@@ -1,8 +1,0 @@
-- name: Create/update user
-  become: yes
-  user:
-    name: "{{ user }}"
-    shell: "{{ zsh_path }}"
-    state: present
-    groups: docker,libvirt
-    append: yes
