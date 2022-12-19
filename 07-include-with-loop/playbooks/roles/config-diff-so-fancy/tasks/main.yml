@@ -19,6 +19,7 @@
   lineinfile:
     path: $HOME/.zprofile
     search_string: 'export PATH="$HOME/.cargo/bin:$PATH"'
+    line: 'export PATH="$HOME/.cargo/bin:$PATH"'
     state: present
 
 - name: Update .zshrc
