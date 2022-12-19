@@ -66,7 +66,7 @@
 - name: Clone plugins
   git:
     repo: "{{ repo }}"
-    dest: "{{ ZSH_CUSTOM }}/plugins/{{ repo | regex_replace('\/([\w-]+)(\.git|)$', '\\1') }}"
+    dest: "{{ ZSH_CUSTOM }}/plugins/{{ repo | regex_replace('\/([\\w-]+)(\.git|)$', '\\1') }}"
   loop:
     - https://github.com/Aloxaf/fzf-tab
     - https://github.com/zsh-users/zsh-syntax-highlighting.git
