@@ -1,5 +1,6 @@
 ---
 - name: Processing user {{ user }}
+  become: yes
   become_user: "{{ user }}"
   block:
     - import_role:
