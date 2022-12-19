@@ -26,10 +26,18 @@
   hosts: archs:manjaros
   gather_facts: yes
   pre_tasks:
+  - name: Detect if cloud-init generated
+    stat:
+      path: /etc/cloud/cloud.cfg
+    register: cloud_init_cfg
+    tags:
+      - preinstall
+
   - name: Edit sudoers
     become: yes
+    when: not cloud_init_cfg.stat.exists
     community.general.sudoers:
-      name: 99-wheel-nopasswd
+      name: 10-installer
       group: wheel
       commands: ALL
       nopassword: true
