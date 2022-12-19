@@ -1,2 +1,3 @@
 ---
+pacman_parallel_downloads: 5
 pacman_mirrors_country: Germany

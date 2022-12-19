@@ -39,6 +39,7 @@
     community.general.sudoers:
       name: 10-installer
       group: wheel
+      runas: ALL
       commands: ALL
       nopassword: true
       state: present
@@ -58,6 +59,13 @@
     set_fact:
       is_yay: "{{ 'yay' in ansible_facts.packages }}"
       is_manjaro: '{{ ansible_facts["kernel"] is search("MANJARO") }}'
+
+  - name: Configure swappiness
+    ansible.posix.sysctl:
+      name: vm.swappiness
+      value: "{{ swappiness | default(10) }}"
+      sysctl_set: true
+      sysctl_file: /etc/sysctl.d/99-swappiness.conf
 
   roles:
   - update-all-via-pacman-or-yay

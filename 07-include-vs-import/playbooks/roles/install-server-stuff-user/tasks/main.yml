@@ -2,7 +2,6 @@
 - name: Processing user {{ user }}
   become: yes
   become_user: "{{ user }}"
-  become_method: su
   block:
     - import_role:
         name: config-jupyter

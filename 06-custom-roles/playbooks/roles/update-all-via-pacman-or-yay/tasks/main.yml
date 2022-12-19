@@ -1,4 +1,12 @@
 ---
+- name: Configure parallel downloads for pacman
+  become: yes
+  lineinfile:
+    path: /etc/pacman.conf
+    search_string: 'ParallelDownloads'
+    line: ParallelDownloads = {{ pacman_parallel_downloads }}
+    state: present
+
 - name: Install pacman mirrors
   become: yes
   pacman:

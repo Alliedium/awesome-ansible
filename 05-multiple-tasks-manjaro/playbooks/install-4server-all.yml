@@ -18,8 +18,9 @@
 
   - name: Edit sudoers
     community.general.sudoers:
-      name: wheel-nopasswd
+      name: 99-wheel-nopasswd
       group: wheel
+      runas: ALL
       commands: ALL
       nopassword: true
       state: present
