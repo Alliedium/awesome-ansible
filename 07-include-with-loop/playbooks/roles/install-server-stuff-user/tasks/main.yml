@@ -5,7 +5,8 @@
 
 - include_role:
     name: "{{ role }}"
-  become: "{{ user }}"
+  apply:
+    become_user: "{{ user }}"
   loop:
     - config-jupyter
     - install-ohmyzsh
