@@ -159,10 +159,14 @@ or
 ```
 chmod 600 ~/.ssh/id_rsa_cloudinit
 ```
-2. Install `Ansible`
+2. Install the [latest version of `Ansible`](https://www.cyberciti.biz/faq/how-to-install-and-configure-latest-version-of-ansible-on-ubuntu-linux/)
 ```
+sudo apt remove ansible || true
+sudo apt --purge autoremove
 sudo apt update
 sudo apt upgrade
+sudo apt -y install software-properties-common
+sudo apt-add-repository ppa:ansible/ansible
 sudo apt install ansible
 ansible --version
 ```
