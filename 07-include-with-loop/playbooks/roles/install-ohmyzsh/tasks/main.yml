@@ -29,6 +29,9 @@
       + zshrc_to_delete.files
       + p10k_to_delete.files
     }}
+    - $HOME/.oh-my-zsh
+    - $HOME/.p10k.zsh
+    - $HOME/.shell.pre-oh-my-zsh
 
 - name: set ZSH_CUSTOM
   set_fact:
