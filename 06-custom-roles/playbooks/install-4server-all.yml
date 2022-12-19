@@ -61,6 +61,7 @@
       is_manjaro: '{{ ansible_facts["kernel"] is search("MANJARO") }}'
 
   - name: Configure swappiness
+    become: yes
     ansible.posix.sysctl:
       name: vm.swappiness
       value: "{{ swappiness | default(10) }}"
