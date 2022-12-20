@@ -9,4 +9,7 @@
     state: present
 
 - name: Configure git
-  command: git config --global core.fileMode true
+  git_config:
+    name: core.fileMode
+    scope: global
+    value: "true"
