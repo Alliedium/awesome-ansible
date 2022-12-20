@@ -18,15 +18,6 @@
   command: pacman-mirrors --country {{ pacman_mirrors_country }}
   when: is_manjaro
 
-- name: Refresh keys for pacman
-  become: yes
-  command: pacman-key --refresh-keys
-
-- name: Install archlinux-keyring
-  become: yes
-  pacman:
-    name: archlinux-keyring
-
 - name: Update via yay if yay is installed
   become: no
   kewlfft.aur.aur:
