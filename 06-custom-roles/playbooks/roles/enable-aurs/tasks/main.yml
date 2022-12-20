@@ -53,6 +53,13 @@
         regexp: '#EnableAUR'
         replace: 'EnableAUR'
 
+- name: Install make for Manjaro
+  become: yes
+  pacman:
+    name: make
+    state: present
+  when: is_manjaro
+
 - name: Install tools used for AUR packages compression
   kewlfft.aur.aur:
     use: yay
@@ -60,24 +67,13 @@
       - pigz
       - pbzip2
       - plzip
-
-- name: Enable parallel compression for AUR packages
-  debug:
-    msg: "{{ compression_command | regex_replace('^(\\w+)=', '\\1') }}"
-  loop:
-    - 'COMPRESSZST=(zstd -c -z -q --threads=0 -)'
-    - 'COMPRESSXZ=(xz -c -z --threads=0 -)'
-    - 'COMPRESSGZ=(pigz -c -f -n)'
-    - 'COMPRESSBZ2=(pbzip2 -c -f)'
-    - 'COMPERSSLZ=(plzip -c -f)'
-  loop_control:
-    loop_var: compression_command
+    extra_args: --nocleanmenu --nodiffmenu
 
 - name: Enable parallel compression for AUR packages
   become: yes
   lineinfile:
     path: /etc/makepkg.conf
-    search_string: "{{ compression_command | regex_replace('^(\\w+)=', '\\1') }}"
+    search_string: "{{ compression_command | regex_replace('^(\\w+=).*$', '\\1') }}"
     line: "{{ compression_command }}"
     state: present
   loop:
