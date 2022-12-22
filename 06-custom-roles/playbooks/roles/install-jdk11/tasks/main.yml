@@ -1,7 +1,0 @@
----
-- name: Install jdk11
-  become: yes
-  pacman:
-    name:
-      - jdk11-openjdk
-    state: present

@@ -1,4 +1,0 @@
----
-- name: Reboot after update
-  become: yes
-  reboot:

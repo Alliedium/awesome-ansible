@@ -1,7 +1,0 @@
----
-- name: Install zsh
-  become: yes
-  pacman:
-    name:
-      - zsh
-    state: present

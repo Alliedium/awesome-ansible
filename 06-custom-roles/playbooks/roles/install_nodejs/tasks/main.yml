@@ -1,0 +1,15 @@
+---
+- name: Install nodejs, yarn, npm
+  become: true
+  community.general.pacman:
+    name:
+      - nodejs
+      - yarn
+      - npm
+    state: present
+
+- name: Install less
+  become: true
+  community.general.npm:
+    name: less
+    global: true

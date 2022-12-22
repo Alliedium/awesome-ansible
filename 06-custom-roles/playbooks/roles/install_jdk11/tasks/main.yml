@@ -1,0 +1,7 @@
+---
+- name: Install jdk11
+  become: true
+  community.general.pacman:
+    name:
+      - jdk11-openjdk
+    state: present

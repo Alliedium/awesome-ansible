@@ -1,0 +1,15 @@
+---
+- name: Install git, git-lfs, tig
+  become: true
+  community.general.pacman:
+    name:
+      - git
+      - git-lfs
+      - tig
+    state: present
+
+- name: Configure git
+  community.general.git_config:
+    name: core.fileMode
+    scope: global
+    value: "true"

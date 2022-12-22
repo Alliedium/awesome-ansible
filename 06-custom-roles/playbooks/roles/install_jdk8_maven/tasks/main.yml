@@ -1,0 +1,8 @@
+---
+- name: Install jdk8, maven
+  become: true
+  community.general.pacman:
+    name:
+      - jdk8-openjdk
+      - maven
+    state: present

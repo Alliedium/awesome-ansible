@@ -1,0 +1,7 @@
+---
+- name: Restart docker after adding/changing daemon.json
+  become: true
+  ansible.builtin.systemd:
+    name: docker
+    state: restarted
+    enabled: true

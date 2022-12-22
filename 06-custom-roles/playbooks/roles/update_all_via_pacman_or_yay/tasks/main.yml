@@ -1,0 +1,43 @@
+---
+- name: Configure parallel downloads for pacman
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/pacman.conf
+    search_string: 'ParallelDownloads'
+    line: ParallelDownloads = {{ pacman_parallel_downloads }}
+    state: present
+
+- name: Install pacman mirrors
+  become: true
+  community.general.pacman:
+    name: pacman-mirrors
+  when: is_manjaro
+
+- name: Set pacman mirrors
+  become: true
+  ansible.builtin.command: pacman-mirrors --country {{ pacman_mirrors_country }}
+  when: is_manjaro
+  changed_when: true
+
+- name: Update via yay if yay is installed
+  become: false
+  kewlfft.aur.aur:
+    use: yay
+    upgrade: true
+    update_cache: true
+    aur_only: false
+  when: is_yay
+  notify:
+    - Reboot after update
+
+- name: Otherwise update via pacman
+  become: true
+  community.general.pacman:
+    update_cache: true
+    upgrade: 'yes'
+  when: not is_yay
+  notify:
+    - Reboot after update
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

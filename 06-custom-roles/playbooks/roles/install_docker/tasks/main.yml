@@ -1,0 +1,28 @@
+---
+- name: Install docker
+  become: true
+  community.general.pacman:
+    name:
+      - docker
+    state: present
+
+- name: Enable & start docker
+  become: true
+  ansible.builtin.systemd:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Add user to docker group
+  become: true
+  ansible.builtin.command: usermod -aG docker {{ ansible_user }}
+  changed_when: true
+
+- name: Create docker config
+  become: true
+  ansible.builtin.template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    mode: '0644'
+  notify:
+    - Restart docker after adding/changing daemon.json

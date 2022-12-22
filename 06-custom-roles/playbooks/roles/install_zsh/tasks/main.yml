@@ -1,0 +1,7 @@
+---
+- name: Install zsh
+  become: true
+  community.general.pacman:
+    name:
+      - zsh
+    state: present

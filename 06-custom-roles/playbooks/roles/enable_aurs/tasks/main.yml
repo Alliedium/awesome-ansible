@@ -1,0 +1,87 @@
+---
+- name: Install yay via pacman
+  become: true
+  community.general.pacman:
+    name: yay
+    state: present
+  when: is_manjaro and (not is_yay)
+
+- name: Build yay for Arch from binaries
+  when: (not is_manjaro) and (not is_yay)
+  block:
+    - name: Remove directories before building yay from binaries
+      ansible.builtin.file:
+        state: absent
+        path: "{{ item }}"
+      loop:
+        - ./yay-bin
+        - ./yay
+
+    - name: Clone yay-bin
+      become: false
+      ansible.builtin.git: # noqa: latest
+        repo: https://aur.archlinux.org/yay-bin.git
+        dest: ./yay-bin
+
+    - name: Build yay from binaries
+      become: false
+      ansible.builtin.command:
+        cmd: makepkg -si --noconfirm
+        chdir: ./yay-bin
+        creates: /usr/bin/yay
+
+    - name: Remove directories after building yay from binaries
+      ansible.builtin.file:
+        state: absent
+        path: "{{ item }}"
+      loop:
+        - ./yay-bin
+        - ./yay
+
+- name: Configure pamac for Manjaro
+  when: is_manjaro
+  block:
+    - name: Install pamac-cli
+      become: false
+      kewlfft.aur.aur:
+        use: yay
+        name: pamac-cli
+
+    - name: Enable AUR in pamac
+      become: true
+      ansible.builtin.replace:
+        path: /etc/pamac.conf
+        regexp: '#EnableAUR'
+        replace: 'EnableAUR'
+
+- name: Install make for Manjaro
+  become: true
+  community.general.pacman:
+    name: make
+    state: present
+  when: is_manjaro
+
+- name: Install tools used for AUR packages compression
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - pigz
+      - pbzip2
+      - plzip
+    extra_args: --nocleanmenu --nodiffmenu
+
+- name: Enable parallel compression for AUR packages
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/makepkg.conf
+    search_string: "{{ compression_command | regex_replace('^(\\w+=).*$', '\\1') }}"
+    line: "{{ compression_command }}"
+    state: present
+  loop:
+    - 'COMPRESSZST=(zstd -c -z -q --threads=0 -)'
+    - 'COMPRESSXZ=(xz -c -z --threads=0 -)'
+    - 'COMPRESSGZ=(pigz -c -f -n)'
+    - 'COMPRESSBZ2=(pbzip2 -c -f)'
+    - 'COMPRESSLZ=(plzip -c -f)'
+  loop_control:
+    loop_var: compression_command

@@ -1,0 +1,13 @@
+---
+- name: Install aws-cli
+  become: true
+  community.general.pacman:
+    name:
+      - aws-cli
+    state: present
+
+- name: Install aws-iam-authenticator-bin
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - aws-iam-authenticator-bin

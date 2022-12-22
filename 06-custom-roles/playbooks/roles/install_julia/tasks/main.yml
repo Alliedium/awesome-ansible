@@ -1,0 +1,6 @@
+---
+- name: Install julia
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - julia

@@ -1,0 +1,37 @@
+---
+- name: Install llvm, clang, rustup
+  become: true
+  community.general.pacman:
+    name:
+      - llvm
+      - clang
+      - rustup
+    state: present
+
+- name: Set up rust
+  ansible.builtin.command: 'rustup default stable'
+  changed_when: true
+
+- name: Install llvm, clang, rustup
+  become: true
+  community.general.pacman:
+    name:
+      - broot
+      - bandwhich
+      - fd
+      - bat
+      - diff-so-fancy
+      - exa
+      - skim
+    state: present
+
+- name: Install broot
+  ansible.builtin.command: 'broot --install'
+  changed_when: true
+
+- name: Install dust
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - dust
+    extra_args: --nocleanmenu --nodiffmenu

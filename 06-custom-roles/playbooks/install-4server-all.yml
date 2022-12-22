@@ -1,97 +1,97 @@
 - name: Wait when all hosts are ready
   hosts: archs:manjaros
-  gather_facts: no
+  gather_facts: false
   tasks:
   - name: Wait for system to become reachable
-    wait_for_connection:
+    ansible.builtin.wait_for_connection:
       timeout: 600
     tags:
       - preinstall
 
   - name: Detect if cloud-init generated
-    stat:
+    ansible.builtin.stat:
       path: /etc/cloud/cloud.cfg
     register: cloud_init_cfg
     tags:
       - preinstall
 
   - name: Wait for cloud-init / user-data to finish
-    command: cloud-init status --wait
-    changed_when: no
+    ansible.builtin.command: cloud-init status --wait
+    changed_when: false
     when: cloud_init_cfg.stat.exists
     tags:
       - preinstall
 
 - name: Configure hosts and install server components
   hosts: archs:manjaros
-  gather_facts: yes
+  gather_facts: true
   pre_tasks:
-  - name: Detect if cloud-init generated
-    stat:
-      path: /etc/cloud/cloud.cfg
-    register: cloud_init_cfg
-    tags:
-      - preinstall
+    - name: Detect if cloud-init generated
+      ansible.builtin.stat:
+        path: /etc/cloud/cloud.cfg
+      register: cloud_init_cfg
+      tags:
+        - preinstall
 
-  - name: Edit sudoers
-    become: yes
-    when: not cloud_init_cfg.stat.exists
-    community.general.sudoers:
-      name: 10-installer
-      group: wheel
-      runas: ALL
-      commands: ALL
-      nopassword: true
-      state: present
-      validation: required
-    tags:
-      - preinstall
+    - name: Edit sudoers
+      become: true
+      when: not cloud_init_cfg.stat.exists
+      community.general.sudoers:
+        name: 10-installer
+        group: wheel
+        runas: ALL
+        commands: ALL
+        nopassword: true
+        state: present
+        validation: required
+      tags:
+        - preinstall
 
-  - name: Remove snap
-    include_role:
-      name: bodsch.snapd
+    - name: Remove snap
+      ansible.builtin.include_role:
+        name: bodsch.snapd
 
-  - name: Gather the package facts
-    package_facts:
-      manager: auto
+    - name: Gather the package facts
+      ansible.builtin.package_facts:
+        manager: auto
 
-  - name: Set facts on yay and Manjaro
-    set_fact:
-      is_yay: "{{ 'yay' in ansible_facts.packages }}"
-      is_manjaro: '{{ ansible_facts["kernel"] is search("MANJARO") }}'
+    - name: Set facts on yay and Manjaro
+      ansible.builtin.set_fact:
+        is_yay: "{{ 'yay' in ansible_facts.packages }}"
+        is_manjaro: '{{ ansible_facts["kernel"] is search("MANJARO") }}'
 
-  - name: Configure swappiness
-    become: yes
-    ansible.posix.sysctl:
-      name: vm.swappiness
-      value: "{{ swappiness | default(10) }}"
-      sysctl_set: true
-      sysctl_file: /etc/sysctl.d/99-swappiness.conf
+    - name: Configure swappiness
+      become: true
+      ansible.posix.sysctl:
+        name: vm.swappiness
+        value: "{{ swappiness | default(10) }}"
+        sysctl_set: true
+        sysctl_file: /etc/sysctl.d/99-swappiness.conf
 
   roles:
-  - update-all-via-pacman-or-yay
-  - enable-aurs
-  - install-dev-packages
-  - role: install-nodejs
-    when: "'nodejs' in components_to_install"
-  - role: install-jdk8-maven
-    when: "'jdk8-maven' in components_to_install"
-  - role: install-jdk11
-    when: "'jdk11' in components_to_install"
-  - install-zsh
-  - role: install-aws
-    when: "'aws' in components_to_install"
-  - install-setup-git
-  - role: install-micromamba
-    when: "'micromamba' in components_to_install"
-  - role: install-docker
-    when: "'docker' in components_to_install"
-  - role: install-docker-compose
-    when: "'docker-compose' in components_to_install"
-  - role: install-rust-utils
-    when: "'rust' in components_to_install"
-  - update-all-via-pacman-or-yay
-  - role: install-server-extras
-    when: "'server-extras' in components_to_install"
-  - role: install-julia
-    when: "'julia' in components_to_install"
+    - update_all_via_pacman_or_yay
+    - enable_aurs
+    - install_dev_packages
+    - role: install_nodejs
+      when: "'nodejs' in components_to_install"
+    - role: install_jdk8_maven
+      when: "'jdk8-maven' in components_to_install"
+    - role: install_jdk11
+      when: "'jdk11' in components_to_install"
+    - install_zsh
+    - role: install_aws
+      when: "'aws' in components_to_install"
+    - install_setup_git
+    - role: install_micromamba
+      when: "'micromamba' in components_to_install"
+    - role: install_docker
+      when: "'docker' in components_to_install"
+    - role: install_docker_compose
+      when: "'docker-compose' in components_to_install"
+    - role: install_rust_utils
+      when: "'rust' in components_to_install"
+    - update_all_via_pacman_or_yay
+    - role: install_server_extras
+      when: "'server-extras' in components_to_install"
+    - role: install_julia
+      when: "'julia' in components_to_install"

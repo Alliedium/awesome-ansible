@@ -1,0 +1,4 @@
+---
+- name: Reboot after update
+  become: true
+  ansible.builtin.reboot:
