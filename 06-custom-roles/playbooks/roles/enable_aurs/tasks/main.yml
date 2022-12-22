@@ -19,7 +19,7 @@
 
     - name: Clone yay-bin
       become: false
-      ansible.builtin.git: # noqa: latest
+      ansible.builtin.git: # noqa: git-latest
         repo: https://aur.archlinux.org/yay-bin.git
         dest: ./yay-bin
 

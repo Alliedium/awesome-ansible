@@ -62,13 +62,13 @@
     state: absent
 
 - name: Clone powerlevel10k
-  ansible.builtin.git: # noqa: latest
+  ansible.builtin.git: # noqa: git-latest
     repo: https://github.com/romkatv/powerlevel10k.git
     dest: "{{ zsh_custom }}/themes/powerlevel10k"
     depth: 1
 
 - name: Clone fzf
-  ansible.builtin.git: # noqa: latest
+  ansible.builtin.git: # noqa: git-latest
     repo: https://github.com/junegunn/fzf.git
     dest: $HOME/.fzf
     depth: 1
@@ -78,7 +78,7 @@
   changed_when: true
 
 - name: Clone plugins
-  ansible.builtin.git: # noqa: latest
+  ansible.builtin.git: # noqa: git-latest
     repo: "{{ repo }}"
     dest: "{{ zsh_custom }}/plugins/{{ repo | regex_replace('\\/([\\w-]+)(\\.git|)$', '\\1') }}"
   loop:
