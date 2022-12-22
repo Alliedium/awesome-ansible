@@ -13,7 +13,7 @@
         database: group
         split: ":"
 
-    - name: Perform sysadmin actions for user {{ user }}
+    - name: Perform sysadmin actions for user
       ansible.builtin.include_role:
         name: sysadmin_user
       vars:

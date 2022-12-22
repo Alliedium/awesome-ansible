@@ -3,7 +3,7 @@
   hosts: archs:manjaros
   gather_facts: false
   tasks:
-    - name: Perform user actions for user {{ user }}
+    - name: Perform user actions for user
       ansible.builtin.include_role:
         name: install_server_stuff_user
       loop: "{{ users }}"
