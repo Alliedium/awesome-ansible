@@ -1,16 +1,16 @@
 - name: Create/update user {{ user }}
-  become: yes
-  user:
+  become: true
+  ansible.builtin.user:
     name: "{{ user }}"
     shell: "{{ zsh_path }}"
     state: present
 
-- name: Add user {{ user }} to secondary groups
-  become: yes
-  user:
+- name: Add user to secondary groups for user {{ user }}
+  become: true
+  ansible.builtin.user:
     name: "{{ user }}"
     groups: "{{ group_name }}"
-    append: yes
+    append: true
   when: group_name in ansible_facts.getent_group
   loop:
     - docker

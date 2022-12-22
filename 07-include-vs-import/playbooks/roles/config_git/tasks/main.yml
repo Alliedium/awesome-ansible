@@ -1,10 +1,12 @@
 ---
-- git_config:
+- name: Set fileMode for git
+  community.general.git_config:
     name: core.fileMode
     scope: global
     value: "true"
 
-- git_config:
+- name: Set editor for git
+  community.general.git_config:
     name: core.editor
     scope: global
     value: "nvim"

@@ -1,19 +1,21 @@
 ---
-- hosts: archs:manjaros
-  gather_facts: no
+- name: Perform sysadmin actions for users
+  hosts: archs:manjaros
+  gather_facts: false
   tasks:
     - name: Get zsh path
-      command: which zsh
+      ansible.builtin.command: which zsh
       register: zsh_path_result
-      changed_when: no
+      changed_when: false
 
     - name: Get all groups
-      getent:
+      ansible.builtin.getent:
         database: group
         split: ":"
 
-    - include_role:
-        name: sysadmin-user
+    - name: Perform sysadmin actions for user {{ user }}
+      ansible.builtin.include_role:
+        name: sysadmin_user
       vars:
         zsh_path: "{{ zsh_path_result.stdout }}"
       loop: "{{ users }}"

@@ -1,37 +1,31 @@
 ---
 - name: Check whether broot is installed
-  command: which broot &>/dev/null
+  ansible.builtin.command: which broot &>/dev/null
   register: broot_exists
-  ignore_errors: yes
-  failed_when: no
+  ignore_errors: true
+  failed_when: false
+  changed_when: false
 
 - name: Install or reinstall the br shell function
-  command: broot --install
+  ansible.builtin.command: broot --install
   when: broot_exists.rc == 0
+  changed_when: true
 
 - name: Config diff so fancy paget in git
-  git_config:
+  community.general.git_config:
     name: core.pager
     scope: global
     value: "diff-so-fancy | less --tabs=4 -RFX"
 
 - name: Create .zprofile if it doesn't exist
-  file:
+  ansible.builtin.file:
     path: $HOME/.zprofile
+    mode: '0644'
     state: touch
 
 - name: Check if binary is exported, if no add this config to .zprofile
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: $HOME/.zprofile
     search_string: 'export PATH="$HOME/.cargo/bin:$PATH"'
     line: 'export PATH="$HOME/.cargo/bin:$PATH"'
     state: present
-
-- name: Update .zshrc
-  shell: . $HOME/.zshrc
-  ignore_errors: yes
-  failed_when: no
-
-- name: Update .zprofile
-  shell: . $HOME/.zprofile
-  

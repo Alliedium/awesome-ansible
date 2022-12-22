@@ -28,7 +28,7 @@
 
   - name: Copy over the timesyncd config
     copy:
-      src: ../templates/timesync.conf
+      src: timesync.conf
       dest: /etc/systemd/timesyncd.conf
     register: timesyncd_config
 

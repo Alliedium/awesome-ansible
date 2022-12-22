@@ -1,0 +1,6 @@
+---
+- name: Copy config file
+  ansible.builtin.copy:
+    src: .tigrc
+    dest: $HOME
+    mode: '0644'

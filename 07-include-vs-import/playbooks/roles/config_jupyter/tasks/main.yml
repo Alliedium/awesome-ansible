@@ -1,14 +1,16 @@
 ---
 - name: Copy config folder
-  copy:
-    src: ../files/.jupyter
+  ansible.builtin.copy:
+    src: .jupyter
     dest: $HOME/
+    mode: '0644'
 
 - name: Make copies of files within config folder
-  copy:
+  ansible.builtin.copy:
     remote_src: true
     src: $HOME/.jupyter/jupyter_notebook_config.{{ extension }}
     dest: $HOME/.jupyter/jupyter_lab_config.{{ extension }}
+    mode: '0644'
   loop:
     - py
     - json

@@ -1,0 +1,20 @@
+---
+- name: Processing user {{ user }}
+  become: true
+  become_user: "{{ user }}"
+  block:
+    - name: Configure jupyter
+      ansible.builtin.import_role:
+        name: config_jupyter
+    - name: Install and configure OhMyZsh
+      ansible.builtin.import_role:
+        name: install_ohmyzsh
+    - name: Configure diff-so-fancy
+      ansible.builtin.import_role:
+        name: config_diff_so_fancy
+    - name: Configure git
+      ansible.builtin.import_role:
+        name: config_git
+    - name: Configure tig
+      ansible.builtin.import_role:
+        name: config_tig

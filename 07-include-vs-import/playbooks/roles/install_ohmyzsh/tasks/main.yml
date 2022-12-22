@@ -1,26 +1,29 @@
 ---
-- find:
+- name: Find files or directories by .fzf* mask marked for deletion
+  ansible.builtin.find:
     path: $HOME
-    hidden: yes
+    hidden: true
     file_type: any
     pattern: .fzf*
   register: fzf_to_delete
 
-- find:
+- name: Find files or directories by .zshrc* mask marked for deletion
+  ansible.builtin.find:
     path: $HOME
-    hidden: yes
+    hidden: true
     file_type: any
     pattern: .zshrc*
   register: zshrc_to_delete
 
-- find:
+- name: Find files or directories by .cache/p10k* mask marked for deletion
+  ansible.builtin.find:
     path: $HOME/.cache
     file_type: any
     pattern: p10k*
   register: p10k_to_delete
 
 - name: Remove previous files and folders by patterns
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: absent
   with_items: >
@@ -31,7 +34,7 @@
     }}
 
 - name: Remove previous files and folders by names
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: absent
   loop:
@@ -39,43 +42,45 @@
     - $HOME/.p10k.zsh
     - $HOME/.shell.pre-oh-my-zsh
 
-- name: set ZSH_CUSTOM
-  set_fact:
-    ZSH_CUSTOM: $HOME/.oh-my-zsh/custom
+- name: Set zsh_custom
+  ansible.builtin.set_fact:
+    zsh_custom: $HOME/.oh-my-zsh/custom
 
 - name: Download oh-my-zsh installer
-  get_url: 
+  ansible.builtin.get_url:
     url: https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh
     dest: /tmp/oh-my-zsh-installer.sh
     mode: 0755
 
 - name: Execute oh-my-zsh installer
-  shell: /tmp/oh-my-zsh-installer.sh --unattended
+  ansible.builtin.command: /tmp/oh-my-zsh-installer.sh --unattended
+  changed_when: true
 
 - name: Remove oh-my-zsh installer
-  file:
+  ansible.builtin.file:
     path: /tmp/oh-my-zsh-installer.sh
     state: absent
 
 - name: Clone powerlevel10k
-  git:
+  ansible.builtin.git: # noqa: latest
     repo: https://github.com/romkatv/powerlevel10k.git
-    dest: "{{ ZSH_CUSTOM }}/themes/powerlevel10k"
+    dest: "{{ zsh_custom }}/themes/powerlevel10k"
     depth: 1
 
 - name: Clone fzf
-  git:
+  ansible.builtin.git: # noqa: latest
     repo: https://github.com/junegunn/fzf.git
     dest: $HOME/.fzf
     depth: 1
 
 - name: Install fzf
-  command: $HOME/.fzf/install --all
+  ansible.builtin.command: $HOME/.fzf/install --all
+  changed_when: true
 
 - name: Clone plugins
-  git:
+  ansible.builtin.git: # noqa: latest
     repo: "{{ repo }}"
-    dest: "{{ ZSH_CUSTOM }}/plugins/{{ repo | regex_replace('\\/([\\w-]+)(\\.git|)$', '\\1') }}"
+    dest: "{{ zsh_custom }}/plugins/{{ repo | regex_replace('\\/([\\w-]+)(\\.git|)$', '\\1') }}"
   loop:
     - https://github.com/Aloxaf/fzf-tab
     - https://github.com/zsh-users/zsh-syntax-highlighting.git
@@ -85,9 +90,10 @@
     loop_var: repo
 
 - name: Copy config files
-  copy:
-    src: ../files/{{ item }}
+  ansible.builtin.copy:
+    src: "{{ item }}"
     dest: $HOME
+    mode: '0644'
   loop:
     - .zshrc
     - .p10k.zsh
