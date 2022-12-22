@@ -205,4 +205,4 @@ ansible all -m ping -i inventory
 | [Example 4](./04-multiple-tasks-ubuntu) | prep-ubuntu4k3s.yml configures Ubuntu machines: installs and starts qemu-guest-agent, removes snap, updates NTP servers |
 | [Example 5](./05-multiple-tasks-arch-manjaro) | install-4server-all.yml configures Manjaro and Arch machines: removes snap, updates packages, installs git, yay, pacman-cli, enables AUR, installs pigz & pbzip2 | 
 | [Example 6](./06-custom-roles) | install-4server-all.yml configures Manjaro and Arch machines using custom roles | 
-| [Example 7](./06-include-vs-import) | sysadmin-users.yml and install-server-stuff-user.yaml configure Manjaro and Arch machines for users using loops for include_role and become_user for import_role | 
+| [Example 7](./07-include-vs-import) | sysadmin-users.yml and install-server-stuff-user.yaml configure Manjaro and Arch machines for users using loops for include_role and become_user for import_role | 
