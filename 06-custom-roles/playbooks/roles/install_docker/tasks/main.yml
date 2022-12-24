@@ -15,8 +15,10 @@
 
 - name: Add user to docker group
   become: true
-  ansible.builtin.command: usermod -aG docker {{ ansible_user }}
-  changed_when: true
+  ansible.builtin.user:
+    name: "{{ ansible user }}"
+    groups: docker
+    append: true
 
 - name: Create docker config
   become: true

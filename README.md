@@ -195,6 +195,21 @@ ansible-inventory -i <path to hosts.yml> --list
 ansible all -m ping -i inventory
 ```
 
+* After playbooks are created, it is possible to check them via `Ansible linter`. It can be installed by as follows on Debian (some other options are available at
+[Installing](https://ansible-lint.readthedocs.io/installing/) section of the [official documentation](https://ansible-lint.readthedocs.io/)):
+```
+sudo apt update -y
+sudo apt install -y ansible-lint
+```
+After this the linter can by launched by
+```
+ansible-lint
+```
+To list all the rules that are checked by the linter please execute the following command:
+```
+ansible-lint -L
+```
+
 # 3. Playbook examples
 
 | Example | Details |
