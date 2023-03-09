@@ -8,7 +8,7 @@ It is expected that a Proxmox cluster with a node having the name `px-node-I` is
 
 It is also assumed that `vnet` was created in `SDN VLAN 3` zone on linux bridge `vmbr0`, its name is `v3`.
 
-(**NOTE:** LAN 3 should be set up in `OPNsense` according to the instruction provided at [lesson 29](https://github.com/Alliedium/devops-course-2022/tree/main/29_configuring_opnsense_and_creating_vms_via_scripts_and_manual_10_nov_2022)).
+(**NOTE:** LAN 3 should be set up in `OPNsense` according to the instruction provided at [lesson 29](https://github.com/Alliedium/awesome-devops/tree/main/29_configuring_opnsense_and_creating_vms_via_scripts_and_manual_10_nov_2022)).
 
 There are at least 2 ways to create necessary VMs for the environment: a) automatic and b) manual
 
@@ -108,7 +108,7 @@ NOTE: before starting the VMs go to CloudInit tab on Proxmox UI and edit usernam
 
 ## Manual VM creation (Manjaro)
 
-Follow the Manjaro installation steps from [lesson 22](https://github.com/Alliedium/devops-course-2022/blob/main/22_networks_vlan_opnsense_vms_25-oct-2022/practice.md)
+Follow the Manjaro installation steps from [lesson 22](https://github.com/Alliedium/awesome-devops/blob/main/22_networks_vlan_opnsense_vms_25-oct-2022/practice.md)
 
 Necessary VM parameters: Disk size = 20 GiB, RAM = 3072 MiB (3 GiB) RAM size
 
