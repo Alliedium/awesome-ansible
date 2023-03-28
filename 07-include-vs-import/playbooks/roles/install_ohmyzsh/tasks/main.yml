@@ -80,7 +80,7 @@
 - name: Clone plugins
   ansible.builtin.git: # noqa: git-latest
     repo: "{{ repo }}"
-    dest: "{{ zsh_custom }}/plugins/{{ repo | regex_replace('\\/([\\w-]+)(\\.git|)$', '\\1') }}"
+    dest: "{{ zsh_custom }}/plugins/{{ repo | regex_replace('.*\\/([\\w-]+)(\\.git|)$', '\\1') }}"
   loop:
     - https://github.com/Aloxaf/fzf-tab
     - https://github.com/zsh-users/zsh-syntax-highlighting.git
