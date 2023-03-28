@@ -1,5 +1,21 @@
 ---
-- name: Reboot after update
+- name: Reboot after update via reboot module
   become: true
   ansible.builtin.reboot:
   when: ansible_connection!="local"
+  listen: Reboot after update
+
+- name: Ask for manual reboot confirmation
+  ansible.builtin.pause:
+    prompt: "Machine requires reboot after update, proceed? (y/n)"
+    echo: true
+  register: reboot_confirmation
+  when: ansible_connection=="local"
+  listen: Reboot after update
+
+- name: Manual reboot after update
+  become: true
+  ansible.builtin.command: reboot now
+  when: ansible_connection=="local" and reboot_confirmation is defined and reboot_confirmation.user_input is defined and reboot_confirmation.user_input=="y"
+  listen: Reboot after update
+ 
