@@ -2,3 +2,4 @@
 - name: Reboot after update
   become: true
   ansible.builtin.reboot:
+  when:  ansible_connecton != 'local'

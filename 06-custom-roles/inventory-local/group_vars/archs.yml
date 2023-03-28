@@ -1,0 +1,5 @@
+---
+components_to_install:
+  - aws
+  - docker
+  - docker-compose

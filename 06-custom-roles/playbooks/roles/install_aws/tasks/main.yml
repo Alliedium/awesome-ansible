@@ -1,9 +1,16 @@
 ---
-- name: Install aws-cli
+- name: Remove aws-cli-v1
   become: true
   community.general.pacman:
     name:
       - aws-cli
+    state: removed
+
+- name: Install aws-cli-v2
+  become: true
+  community.general.pacman:
+    name:
+      - aws-cli-v2
     state: present
 
 - name: Install aws-iam-authenticator-bin

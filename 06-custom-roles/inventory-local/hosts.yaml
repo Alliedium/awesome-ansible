@@ -1,0 +1,7 @@
+all:
+  children:
+    manjaros:
+      hosts: localhost
+  vars:
+    ansible_connection: local
+    ansible_user: "{{ lookup('env', 'USER') }}"

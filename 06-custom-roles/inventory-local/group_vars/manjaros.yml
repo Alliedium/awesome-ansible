@@ -1,0 +1,8 @@
+---
+components_to_install:
+  - jdk8-maven
+  - jdk11
+  - aws
+  - docker
+  - docker-compose
+  - server-extras

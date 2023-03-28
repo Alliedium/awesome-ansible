@@ -18,6 +18,8 @@
   ansible.builtin.command: pacman-mirrors --country {{ pacman_mirrors_country }}
   when: is_manjaro
   changed_when: true
+  notify:
+    - Reboot after update
 
 - name: Update via yay if yay is installed
   become: false
