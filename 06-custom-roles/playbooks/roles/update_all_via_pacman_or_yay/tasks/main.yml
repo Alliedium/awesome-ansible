@@ -31,6 +31,7 @@
   when: is_yay
   notify:
     - Reboot after update
+  register: update_result_yay
 
 - name: Otherwise update via pacman
   become: true
@@ -40,6 +41,29 @@
   when: not is_yay
   notify:
     - Reboot after update
+  register: update_result_pacman
+
+- name: Debug update_result
+  debug:
+    var: update_result
+    verbosity: 2
+
+- name: Prompt for reboot
+  ansible.builtin.pause:
+    prompt: "Machine requires reboot after update, proceed?(y/n)"
+    echo: true
+  register: reboot_confirmation
+  when: ansible_connection=="local" and ((update_result_yay is defined and update_result_yay.changed) or (update_result_pacman is defined and update_result_pacman.changed))
+
+- name: Debug reboot confirmation
+  debug:
+    var: reboot_confirmation
+    verbosity: 2
+
+- name: Manual reboot after update
+  become: true
+  ansible.builtin.command: reboot now
+  when: ansible_connection=="local" and reboot_confirmation is defined and reboot_confirmation.user_input is defined and reboot_confirmation.user_input=="y"
 
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers
