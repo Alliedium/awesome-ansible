@@ -47,6 +47,10 @@
       tags:
         - preinstall
 
+    - name: Remove snap
+      ansible.builtin.include_role:
+        name: bodsch.snapd
+
     - name: Gather the package facts
       ansible.builtin.package_facts:
         manager: auto
